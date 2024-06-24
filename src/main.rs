@@ -119,45 +119,87 @@ fn clear() {
     }
 }
 
+fn commit_types() -> [&'static str; 72] {
+    let mut x = [
+        "Star",
+        "Comet",
+        "Nebula",
+        "Pulsar",
+        "Quasar",
+        "Asteroid Belt",
+        "Solar Flare",
+        "Dwarf Planet",
+        "Supermassive Black Hole",
+        "Eclipse",
+        "Supernova",
+        "Red Giant",
+        "White Dwarf",
+        "Neutron Star",
+        "Black Hole",
+        "Wormhole",
+        "Solar Wind",
+        "Lunar Eclipse",
+        "Cosmic Microwave",
+        "Gravitational",
+        "Event Horizon",
+        "Big Bang",
+        "Launch",
+        "Probe",
+        "Slingshot Maneuver",
+        "Wormhole",
+        "Lightspeed",
+        "Mission Control",
+        "Spacewalk",
+        "Moon Landing",
+        "First Contact",
+        "Terraform",
+        "Interstellar Communication",
+        "UFO",
+        "Houston, We Have a Problem",
+        "E.T.Phone Home",
+        "Warp Speed",
+        "Space Junk",
+        "Houston, We Have a Solution",
+        "Alien Technology",
+        "May the Force Be With You",
+        "Celestial Dance",
+        "Cosmic Symphony",
+        "Stardust Whispers",
+        "Nebula's Embrace",
+        "Stellar Nursery",
+        "Quantum Leap",
+        "Cosmic Alignment",
+        "Warp Drive",
+        "Hyperspace",
+        "Jump",
+        "First Contact",
+        "Stargate",
+        "Prime",
+        "Directive",
+        "Holo",
+        "Replicator",
+        "Cosmic Dawn",
+        "Galactic Harmony",
+        "Solar Wind",
+        "Lunar Eclipse",
+        "Stellar Evolution",
+        "Nebula's Breath",
+        "Red Shift",
+        "Blue Shift",
+        "Parallax",
+        "Accretion Disk",
+        "Singularity",
+        "Quantum Entanglement",
+        "Dark Matter",
+        "Gravitational Lensing",
+        "Time Dilation",
+    ];
+    x.sort_unstable();
+    x
+}
+
 fn prepare_commit() {
-    let mut scopes = [
-        "auth",
-        "email-template",
-        "devops",
-        "localization",
-        "api",
-        "logging",
-        "navigation",
-        "middleware",
-        "service",
-        "model",
-        "view",
-        "controllers",
-        "subscription",
-        "cli",
-        "lang",
-        "theme",
-        "perf",
-        "search",
-        "payment",
-        "deps",
-        "forms",
-        "design",
-        "seo",
-        "ui",
-        "ux",
-        "router",
-        "db",
-    ];
-    let mut commit_types = [
-        "build", "ci", "docs", "improve", "feat", "fix", "perf", "refactor", "test", "e2e",
-    ];
-    scopes.sort_unstable();
-    commit_types.sort_unstable();
-    let t = Select::new("Select a commit type : ", commit_types.to_vec())
-        .prompt()
-        .unwrap();
-    let s = Select::new("Select a commit scope : ", scopes.to_vec())
+    let t = Select::new("Select a commit type : ", commit_types().to_vec())
         .prompt()
         .unwrap();
     let message = Text::new("Please enter the commit message: ")
@@ -166,12 +208,12 @@ fn prepare_commit() {
     if message.is_empty() {
         prepare_commit();
     }
-    let c = format!("{t}({s}): {}", message.to_lowercase().replace('.', ""));
+    let c = format!("{t}: {}", message.to_lowercase().replace('.', ""));
     commit(c.as_str());
 }
 
 fn publish() {
-    if Confirm::new("Publish ?")
+    if Confirm::new("Publish?")
         .with_default(false)
         .prompt()
         .unwrap()
@@ -189,14 +231,14 @@ fn publish() {
 }
 
 fn quit() -> bool {
-    Confirm::new("Quit commiter ?")
+    Confirm::new("Quit commiter?")
         .with_default(false)
         .prompt()
         .unwrap()
 }
 
 fn send() {
-    if Confirm::new("Send to remotes ?")
+    if Confirm::new("Send to remotes?")
         .with_default(false)
         .prompt()
         .unwrap()
