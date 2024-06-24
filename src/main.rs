@@ -170,6 +170,24 @@ fn prepare_commit() {
     commit(c.as_str());
 }
 
+fn publish() {
+    if Confirm::new("Publish ?")
+        .with_default(false)
+        .prompt()
+        .unwrap()
+        .eq(&true)
+    {
+        assert!(Command::new("cargo")
+            .arg("publish")
+            .current_dir(".")
+            .spawn()
+            .unwrap()
+            .wait()
+            .unwrap()
+            .success());
+    }
+}
+
 fn quit() -> bool {
     Confirm::new("Quit commiter ?")
         .with_default(false)
@@ -214,6 +232,7 @@ fn main() {
             diff();
             prepare_commit();
             send();
+            publish();
             if quit() {
                 break;
             }
