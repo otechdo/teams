@@ -296,21 +296,32 @@ fn prepare_commit() {
     if s.is_empty() {
         prepare_commit();
     }
-    let message = Text::new("Please enter the commit message: ")
+    let summary = Text::new("Please enter the commit summary : ")
         .prompt()
         .unwrap();
-    if message.is_empty() {
+    if summary.is_empty() {
         prepare_commit();
     }
+
+    let body = Text::new("Please enter the commit body : ")
+        .prompt()
+        .unwrap();
+    let footer = Text::new("Please enter the commit footer : ")
+        .prompt()
+        .unwrap();
+
     let c: String = if help {
         let x: Vec<&str> = t.split(':').collect();
         format!(
-            "{}({s}): {}",
+            "{}({s}): {}\n\n{body}\n\n{footer}\n",
             x.first().unwrap(),
-            message.to_lowercase().replace('.', "")
+            summary.to_lowercase().replace('.', "")
         )
     } else {
-        format!("{t}({s}): {}", message.to_lowercase().replace('.', ""))
+        format!(
+            "{t}({s}): {}\n\n{body}\n\n{footer}\n",
+            summary.to_lowercase().replace('.', "")
+        )
     };
     commit(c.as_str());
 }
