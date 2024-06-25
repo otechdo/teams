@@ -1,43 +1,157 @@
+# Installation
+
+```bash
+cargo install zuu commiter
+```
+
+## Archlinux user install
+
+```bash
+paru -S commiter
+```
+
+# Cosmic Commit Types
+
+* **Core:**
+  * **Star:** New feature or enhancement
+  * **Comet:** Bug fix or error resolution
+  * **Nebula:** Code refactoring
+  * **Pulsar:** Performance improvement
+  * **Quasar:** Documentation or clarity improvement
+* **Maintenance & Infrastructure:**
+  * **Asteroid Belt:** Code cleanup and maintenance
+  * **Solar Flare:** Testing-related changes
+  * **Dwarf Planet:** Minor updates or fixes
+  * **Terraform:** Infrastructure changes
+* **Special Events:**
+  * **Black Hole:** Removing large chunks of code or features
+  * **Wormhole:** Merging branches or connecting code parts
+  * **Big Bang:** Initial commit or major feature start
+  * **Launch:** Deploying to production or releasing a version
+* **Communication & Collaboration:**
+  * **Lightspeed:** Significant performance improvements
+  * **Mission Control:** Project management changes
+  * **Spacewalk:** Urgent hotfixes
+  * **Moon Landing:** Major milestone or goal completion
+  * **First Contact:** Initial integrations with external systems
+  * **Interstellar Communication:** Improving documentation or communication
+* **Celestial Events:**
+  * **Solar Eclipse:** Temporarily masking functionality
+  * **Supernova:** Major, transformative change
+  * **Meteor Shower:** Series of small changes or fixes
+  * **Solar Wind:** Refactoring code structure
+  * **Lunar Eclipse:** Temporarily disabling a feature
+  * **Cosmic Dawn:** Initial implementation of a feature
+  * **Solar Storm:** Rapid, impactful changes
+  * **Lunar Transit:** Minor, temporary change
+  * **Perihelion:** Indicates a commit that brings the project closer to its goals or objectives, like a celestial
+    body reaching its closest point to the sun in its orbit. This could be a significant milestone or a major
+    feature completion.
+  * **Aphelion:** Represents a commit that takes the project further away from its immediate goals, but is
+    necessary for long-term progress, like a celestial body reaching its farthest point from the sun in its orbit.
+    This could be a refactor, a dependency update, or a change in architecture.
+* **Celestial Objects:**
+  * **White Dwarf:** Improving code comments or documentation
+  * **Red Giant:** Expanding a feature or functionality
+  * **Neutron Star:** Optimizing code for performance
+  * **Binary Star:** Merging features or components
+  * **Brown Dwarf:** Undeveloped feature with potential
+  * **Quark Star:** Experimental or speculative change
+  * **Rogue Planet:** Independent change
+  * **Stellar Nursery:** Creation of new components
+  * **Planetary Nebula:** Removal or deprecation of a component
+  * **Globular Cluster:** Collection of related changes
+  * **Void:** Removal of a module, component, or feature
+* **Astronomical Concepts:**
+  * **Gravity:** Resolving merge conflicts or dependencies
+  * **Dark Matter:** Fixing unknown or mysterious bugs
+  * **Time Dilation:** Improving code performance
+  * **Spacetime:** Changes to date, time, or scheduling
+  * **Gravitational Lensing:** Altering data or information flow
+  * **Cosmic String:** Connecting code parts
+  * **Quantum Fluctuation:** Small, random change
+  * **Hawking Radiation:** Removing technical debt
+  * **Quantum Entanglement:** Establishing close relationships between code parts
+  * **Gravitational Redshift:** Slowing down or reducing code performance
+* **Space Exploration:**
+  * **Space Probe:** Testing new features or technologies
+  * **Station:** Creating or improving environments
+  * **Rocket Launch:** Deploying to production
+  * **Spacewalk:** Urgent production hotfixes
+  * **Space Elevator:** Making codebase more accessible
+  * **Warp Drive:** Significant speed improvement
+  * **Dyson Sphere:** Comprehensive optimization of a specific area
+  * **Generation Ship:** Long-term project for a self-sustaining system
+  * **Lagrange Point:** Stabilizing or balancing code parts
+  * **Orbital Maneuver:** Changing project direction
+  * **Mission Control:** Represents project management-related changes, such as defining processes or updating the
+    roadmap. It's about keeping the project on course and ensuring smooth operation.
+  * **Moon Landing:** Celebrates the completion of major milestones or significant achievements in the project,
+    marking a giant leap forward.
+  * **First Contact:** Indicates the initial establishment of connections or integrations with external
+    systems orAPIs,opening up new possibilities for communication and data exchange.
+  * **Interstellar Travel:** Migration to a new architecture or language.
+  * **Rover:** Exploration of new technologies or approaches.
+* **Astrophysical Concepts**
+  * **Singularity:** Resolution of a complex or hard-to-reproduce issue.
+  * **Relativity:** Changes related to time, dates, or timestamps.
+  * **Expansion:** Scaling up the system or increasing capacity.
+  * **Big Crunch:** Reduction of codebase size or removal of features.
+
+# Commit Message Format
+
+```
+<type>(<scope>): <short summary>
+
+[Optional body with more details]
+
+[Optional footer(s)]
+```
+
 # Why use it ?
 
 **1. Team Adoption:**
 
-* **Discuss and Agree:** Initiate a conversation with your team about using cosmic commit types. Explain the benefits, share this comprehensive guide, and gather feedback.
-* **Customize:** Collaboratively decide on the specific commit types you want to use. You can start with the comprehensive list provided here and tailor it to your project's specific needs and preferences.
-* **Document:** Create a clear and concise reference document outlining the chosen commit types, their meanings, and examples. Make this document easily accessible to all team members.
+* **Discuss and Agree:** Initiate a conversation with your team about using cosmic commit types. Explain the benefits,
+  share this comprehensive guide, and gather feedback.
+* **Customize:** Collaboratively decide on the specific commit types you want to use. You can start with the
+  comprehensive list provided here and tailor it to your project's specific needs and preferences.
+* **Document:** Create a clear and concise reference document outlining the chosen commit types, their meanings, and
+  examples. Make this document easily accessible to all team members.
 
 **2. Implementation:**
 
-* **Manual Approach:** You can start using cosmic commit types manually by simply adhering to the `<type>(<scope>): <short summary>` format in your commit messages.
-* **Git Commit Template:** Create a Git commit template file (e.g., `.gitmessage`) to automatically populate the commit message format in your editor. This can help enforce consistency and remind contributors of the available commit types.
-* **Git Hooks:** Utilize Git hooks, like the `prepare-commit-msg` hook, to validate your commit messages and ensure they conform to the chosen format.
-* **Automated Tools:** Consider leveraging tools like `commitizen` or `cz-cli` that provide interactive prompts for creating commit messages according to your chosen convention. These tools can streamline the process and enforce consistency across your team.
+* **Manual Approach:** You can start using cosmic commit types manually by simply adhering to
+  the `<type>(<scope>): <short summary>` format in your commit messages.
+* **Git Commit Template:** Create a Git commit template file (e.g., `.gitmessage`) to automatically populate the commit
+  message format in your editor. This can help enforce consistency and remind contributors of the available commit
+  types.
+* **Git Hooks:** Utilize Git hooks, like the `prepare-commit-msg` hook, to validate your commit messages and ensure they
+  conform to the chosen format.
+* **Automated Tools:** Consider leveraging tools like `commitizen` or `cz-cli` that provide interactive prompts for
+  creating commit messages according to your chosen convention. These tools can streamline the process and enforce
+  consistency across your team.
 
 **3. Continuous Improvement:**
 
-* **Regular Review:** Periodically review your team's commit history to ensure consistent usage of the cosmic commit types and identify any areas where the format could be refined or improved.
-* **Feedback Loop:** Encourage open communication and feedback from your team members about the effectiveness of the chosen commit types and any suggestions for improvement.
-* **Iterative Refinement:** Don't be afraid to experiment and adapt the commit types to better suit your evolving project needs. The key is to find a system that works well for your team and enhances your Git workflow.
-
-**Example Commit Message:**
-
-```log
-* Star(UI): Implement responsive design for product listing page
-```
-
-In this example:
-
-* `Star` indicates a new feature or enhancement.
-* `(UI)` specifies the scope of the change (User Interface).
-* `Implement responsive design for product listing page` provides a concise summary of the change.
+* **Regular Review:** Periodically review your team's commit history to ensure consistent usage of the cosmic commit
+  types and identify any areas where the format could be refined or improved.
+* **Feedback Loop:** Encourage open communication and feedback from your team members about the effectiveness of the
+  chosen commit types and any suggestions for improvement.
+* **Iterative Refinement:** Don't be afraid to experiment and adapt the commit types to better suit your evolving
+  project needs. The key is to find a system that works well for your team and enhances your Git workflow.
 
 **4. Continuous Improvement:**
 
-* **Encourage Creativity:** While maintaining consistency, allow team members to add their own flair and personality to the commit messages within the established framework.
-* **Celebrate Milestones:** Use special event commit types like "Moon Landing" to celebrate significant achievements and keep your team motivated.
-* **Integration with Other Tools:** Explore integration options with your issue tracking system, CI/CD pipeline, or documentation tools to automate processes and maximize the benefits of using cosmic commit types.
+* **Encourage Creativity:** While maintaining consistency, allow team members to add their own flair and personality to
+  the commit messages within the established framework.
+* **Celebrate Milestones:** Use special event commit types like "Moon Landing" to celebrate significant achievements and
+  keep your team motivated.
+* **Integration with Other Tools:** Explore integration options with your issue tracking system, CI/CD pipeline, or
+  documentation tools to automate processes and maximize the benefits of using cosmic commit types.
 
-By embracing this comprehensive guide and incorporating cosmic commit types into your Git workflow, you can transform your commit history into a vibrant, informative, and enjoyable reflection of your project's journey. 🚀
+By embracing this comprehensive guide and incorporating cosmic commit types into your Git workflow, you can transform
+your commit history into a vibrant, informative, and enjoyable reflection of your project's journey. 🚀
 
 ## **Improved Clarity and Readability**
 
@@ -77,238 +191,3 @@ By embracing this comprehensive guide and incorporating cosmic commit types into
 Overall, using cosmic commit types can enhance your Git workflow, making it more informative, organized, and enjoyable.
 It's a simple yet effective way to improve communication and collaboration within your team while adding a touch of
 creativity and fun to your daily coding routine.
-
-# Commit Types
-
-## **Core Commit Types**
-
-* **Star:** Signifies the introduction of major new features or significant enhancements to existing functionality. It
-  represents a bright, shining addition to the project.
-* **Comet:** Indicates the resolution of unexpected issues, errors, or bugs that may have disrupted the project's
-  trajectory.
-* **Nebula:** Represents the act of refactoring or restructuring code to improve its organization, readability, and
-  maintainability. It's like shaping a cloud of gas and dust into a more defined structure.
-* **Pulsar:** Denotes improvements to the performance, speed, or efficiency of the codebase. Think of it as fine-tuning
-  the precise timing of a cosmic clock.
-* **Quasar:** Highlights improvements to documentation, code comments, or the overall clarity of the project. It's about
-  shedding light on the inner workings of the code.
-
-## **Maintenance & Infrastructure Commits**
-
-* **Asteroid Belt:** Encompasses code cleanup, removal of unused elements, dependency updates, and general maintenance
-  tasks. It's like clearing out debris to ensure smooth operation.
-* **Solar Flare:** Marks the addition or updating of tests, ensuring the codebase's reliability and stability. It's a
-  burst of energy focused on quality assurance.
-* **Dwarf Planet:** Represents minor but essential updates or fixes that don't fit into major categories. Think of it as
-  a small but significant celestial body.
-* **Terraform:** Specifically for commits related to infrastructure changes managed by Terraform, the "infrastructure as
-  code" tool.
-
-## **Special Event Commits**
-
-* **Black Hole:** Signifies the removal of large chunks of code or features, often due to deprecation or major shifts in
-  direction. It's a dramatic change that consumes old elements.
-* **Wormhole:** Represents the merging of branches or connecting disparate parts of the codebase. It's a shortcut
-  through the fabric of the project.
-* **Big Bang:** Marks the very beginning of a project or a major new feature, signifying a momentous creation.
-* **Launch:** Indicates the deployment of code to a production environment or the release of a new version to users.
-
-## **Communication & Collaboration Commits**
-
-* **Lightspeed:** Highlights significant performance improvements that dramatically increase the speed of the
-  application.
-* **Mission Control:** Represents project management-related changes, such as defining processes or updating the
-  roadmap.
-* **Spacewalk:** Denotes urgent hotfixes or critical updates to the production environment, often requiring immediate
-  attention.
-* **Moon Landing:** Marks the completion of major milestones or the achievement of significant goals in the project.
-* **First Contact:** Indicates the initial establishment of connections or integrations with external systems or APIs.
-* **Interstellar Communication:** Encompasses improvements to documentation, code comments, or any aspect that enhances
-  communication and collaboration within the team.
-
-## **Additional Categories**
-
-* **Solar Wind:** Refactoring code to improve its flow and maintainability.
-* **Lunar Eclipse:** Temporarily disabling or hiding features.
-* **Cosmic Microwave Background:** Adding logging, monitoring, or observability to gain insights into the code's
-  behavior.
-* **Gravitational Wave:** Fixing subtle but impactful bugs or making small but significant improvements.
-* **Event Horizon:** Significant changes that mark a point of no return in the project's development.
-* **Probe:** Denotes experimental features or exploratory work, indicating that the changes are not final.
-* **Slingshot Maneuver:** Represents the act of reverting previous commits or changes due to errors or unintended
-  consequences.
-
-## **Advanced Commit Types**
-
-* **Solar Wind:** This represents code refactoring aimed at improving the overall flow and maintainability, much like
-  the solar wind's continuous stream of charged particles that shapes the solar system.
-* **Lunar Eclipse:** Used when temporarily disabling or hiding a feature. It implies that the feature is not gone but
-  merely obscured for a time, like the moon during an eclipse.
-* **Cosmic Microwave Background:** Relates to adding logging, monitoring, or observability features to your code,
-  allowing you to "see" deeper into the inner workings of your system, much like the cosmic microwave background
-  radiation provides insights into the early universe.
-* **Gravitational Wave:** Indicates subtle but impactful fixes or improvements. These changes, like gravitational waves,
-  may be small but can have far-reaching consequences.
-* **Event Horizon:** Marks significant, irreversible changes to the project, such as dropping support for older
-  technologies or making major architectural shifts. It signifies crossing a point of no return, like the event horizon
-  of a black hole.
-
-## **Navigation & Exploration Commits**
-
-* **Probe:** Denotes experimental features or exploratory work. It suggests that the changes are tentative and subject
-  to further refinement, like a space probe venturing into unknown territory.
-* **Slingshot Maneuver:** Indicates reverting previous commits or changes, like a spacecraft using a planet's gravity to
-  alter its course.
-* **Wormhole:** Used for merging branches or connecting disparate parts of the codebase, creating a shortcut between
-  different sections of the project.
-
-## **Space Exploration Commits**
-
-* **Launch:** Marks the deployment of code to a production environment or the release of a new version. It's the
-  exciting moment when all your hard work is sent out into the world.
-* **Mission Control:** Represents project management-related changes, such as defining processes or updating the
-  roadmap. It's about keeping the project on course and ensuring smooth operation.
-* **Spacewalk:** Denotes urgent hotfixes or critical updates to the production environment, often requiring immediate
-  attention and quick action.
-* **Moon Landing:** Celebrates the completion of major milestones or significant achievements in the project, marking a
-  giant leap forward.
-* **First Contact:** Indicates the initial establishment of connections or integrations with external systems or APIs,
-  opening up new possibilities for communication and data exchange.
-
-## **Communication & Collaboration Commits**
-
-* **Interstellar Communication:** Encompasses improvements to documentation, code comments, or any aspect that enhances
-  communication and collaboration within the team. It emphasizes the importance of clear and open communication in a
-  complex project.
-
-## **Additional Tips & Best Practices**
-
-* **Consistency is Key:**  Encourage your team to adopt the same set of commit types. This will streamline your commit
-  history and make it easier to understand the evolution of the project.
-* **Scope (Optional):**  Include a scope within parentheses after the commit type to provide more context. For
-  example, `Pulsar(API)` indicates that the performance improvement specifically targets the API.
-* **Concise Summaries:** Keep your commit summaries brief and to the point, ideally under 50 characters. This will help
-  others quickly grasp the essence of the change.
-* **Body (Optional):** For more complex changes, provide a detailed description in the commit message body, separated
-  from the summary by a blank line.
-* **Reference Issues:** If your commit addresses a specific issue, mention it in the summary or body using a keyword
-  like "fixes," "closes," or "resolves," followed by the issue number.
-* **Breaking Changes:** If your commit introduces a breaking change, prefix the commit type with "!" (
-  e.g., `!Star(API): Introduce v2 API with breaking changes`).
-
-# **Using the Tool**
-
-If you're using a tool like "zuu commiter" mentioned earlier, it can automate much of the process for you. It can prompt
-you to select a commit type, enforce the correct format, and even run code quality checks before allowing you to commit.
-
-## **Example Workflow**
-
-1. Make your desired changes to the codebase.
-2. Run the commit helper tool (e.g., `commiter`).
-3. Select the appropriate commit type from the list.
-4. Provide a concise summary of your changes.
-5. (Optional) Add a more detailed description in the body if necessary.
-6. Review the generated commit message and confirm.
-
-## **Benefits of Using Cosmic Commit Types**
-
-* **Enhanced Clarity:**  The descriptive and imaginative nature of these commit types makes it easier to understand the
-  purpose of each commit at a glance.
-* **Improved Organization:**  The structured format and consistent use of commit types help keep your commit history
-  clean and organized.
-* **Fun and Engaging:**  The cosmic theme adds a touch of personality and fun to an otherwise mundane task, making your
-  Git workflow more enjoyable.
-* **Better Collaboration:** By using a shared vocabulary for commit types, you can improve communication and
-  collaboration within your team.
-
-## Graph example
-
-```
-* Big Bang: Initial commit (project created)
-|\
-| * Star(UI): Added basic user interface
-| * Star(API): Created API endpoints
-| * Nebula(Backend): Refactored project structure
-| |\
-| | * Comet(UI): Fixed display bug
-| | * Pulsar(API): Optimized queries
-| |/
-| * Launch(v0.1): First version deployed
-|\
-| * Star(Feature): Added new search functionality
-| * Solar Flare(Tests): Added unit tests for search
-| * Quasar(Docs): Updated documentation
-| |\
-| | * Comet(Search): Fixed search bug
-| |/
-| * Launch(v0.2): New version with search functionality
-|\
-| * Black Hole: Removed obsolete feature
-| * Wormhole: Merged 'refactor-auth' branch
-| |\
-| | * Nebula(Auth): Refactored authentication
-| |/
-| * Launch(v0.3): New version with improved authentication
-| * Asteroid Belt: Cleaned up unused code and dependencies
-| * Solar Wind: Refactored code for better readability
-| * Dwarf Planet: Updated project dependencies
-| * Terraform(Infra): Provisioned new cloud resources
-| * Lightspeed(API): Improved API response times
-| * Mission Control: Updated project roadmap
-| * Spacewalk(Security): Patched critical vulnerability
-| * Moon Landing: Successfully released v1.0
-| * First Contact: Integrated with external payment API
-| * Interstellar Communication: Improved code documentation
-| * Solar Wind(UI): Streamlined user interface
-| * Lunar Eclipse(Feature): Temporarily disabled experimental feature
-| * Cosmic Microwave Background(Logging): Added detailed logging
-| * Gravitational Wave(Bug): Fixed minor but impactful bug
-| * Event Horizon: Removed support for legacy browsers
-| * Probe(Feature): Experimented with new UI layout
-| * Slingshot Maneuver: Reverted accidental data deletion
-```
-
-## **Keys**
-
-* **Star:** New feature or major enhancement
-* **Comet:** Bug fix or error resolution
-* **Nebula:** Code refactoring
-* **Pulsar:** Performance improvement
-* **Quasar:** Documentation or clarity improvement
-* **Asteroid Belt:** Code cleanup and maintenance
-* **Solar Flare:** Testing-related changes
-* **Dwarf Planet:** Minor updates or fixes
-* **Terraform:** Infrastructure changes
-* **Lightspeed:** Significant speed improvements
-* **Mission Control:** Project management changes
-* **Spacewalk:** Urgent hotfixes
-* **Moon Landing:** Major milestone or release
-* **First Contact:** Initial integration with external systems
-* **Interstellar Communication:** Improved documentation or communication
-* **Solar Wind:** Refactoring for better flow
-* **Lunar Eclipse:** Temporarily disabling features
-* **Cosmic Microwave Background:** Adding logging or monitoring
-* **Gravitational Wave:** Subtle but impactful fixes
-* **Event Horizon:** Significant, irreversible changes
-* **Probe:** Experimental features
-* **Slingshot Maneuver:** Reverting changes
-
-## **Automated Processes:**
-
-* **Changelog Generation:** Many tools can automatically generate changelogs or release notes based on your commit messages. With standardized commit types, these tools can easily identify and categorize changes, making your release process more efficient.
-* **Issue Tracking:** If you reference issue numbers in your commit messages, some tools can automatically close or update those issues when the commit is pushed, streamlining your issue tracking process.
-* **Automated Testing:** By identifying specific commit types like "Solar Flare" for test-related changes, you can trigger automated tests to run only when necessary, saving time and resources.
-
-## **Team Collaboration:**
-
-* **Improved Communication:** Using a shared vocabulary for commit types fosters better communication among team members, making it easier to understand the context and purpose of each change.
-* **Code Review Efficiency:** During code reviews, commit types can help reviewers quickly assess the impact of a change and focus their attention on relevant areas.
-* **Knowledge Sharing:** New team members can quickly get up to speed on the project's history and conventions by familiarizing themselves with the commit types used.
-
-## **Additional Considerations**
-
-* **Adaptability:** Feel free to customize the list of commit types to suit your specific project needs and preferences. You can add or remove types, modify their descriptions, or even create your own unique cosmic terms.
-* **Tooling:** Consider using tools like "zuu commiter" or similar Git commit helpers to streamline the process of creating and validating commit messages. These tools can enforce the correct format, provide suggestions, and automate certain tasks.
-* **Open Communication:** Discuss the use of cosmic commit types with your team and ensure everyone understands the conventions and benefits. This will encourage consistent adoption and maximize the value of this approach.
-
-By embracing these cosmic commit types and integrating them into your Git workflow, you can transform your commit history from a mundane log into a vibrant and informative narrative of your project's journey through the vast universe of software development.
