@@ -9,4 +9,5 @@ description = "A rust program to ensure the quality of commit"
 keywords = ["git", "zuu", "commit", "quality", "rust"]
 readme = "README.md"
 [dependencies]
+cargo_metadata = "0.18.1"
 inquire = "0.7.5"

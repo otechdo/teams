@@ -1,10 +1,10 @@
 #![allow(clippy::multiple_crate_versions)]
 
+use cargo_metadata::MetadataCommand;
+use inquire::{Confirm, Select, Text};
 use std::env::consts::OS;
 use std::path::Path;
 use std::process::Command;
-
-use inquire::{Confirm, Select, Text};
 
 pub const TYPES: [&str; 69] = [
     "Star",
@@ -150,6 +150,43 @@ const HELP: [&str; 69] = [
     "Big Crunch: Reduction of codebase size or removal of features.",
 ];
 
+fn create_tag() {
+    let m: String = Text::new("Enter the tag message : ").prompt().unwrap();
+
+    let v: String = Text::new("Enter the tag version : ")
+        .with_default(version().as_str())
+        .prompt()
+        .unwrap();
+
+    if m.is_empty() || v.is_empty() {
+        create_tag();
+    }
+    assert!(Command::new("git")
+        .arg("tag")
+        .arg("-a")
+        .arg(v.as_str())
+        .arg("-m")
+        .arg(m.as_str())
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
+}
+
+fn send_tag() {
+    assert!(Command::new("git")
+        .arg("push")
+        .arg("origin")
+        .arg("--tags")
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
+}
 fn commit(m: &str) {
     assert!(Command::new("git")
         .arg("commit")
@@ -161,6 +198,11 @@ fn commit(m: &str) {
         .wait()
         .unwrap()
         .success());
+
+    if confirm("Create new tag", false) {
+        create_tag();
+        send_tag();
+    }
 }
 
 fn diff() {
@@ -222,6 +264,7 @@ fn fmt() {
 }
 
 fn zuu() -> bool {
+    clear();
     if Path::new("Cargo.toml").exists() {
         fmt();
         if Command::new("zuu")
@@ -235,20 +278,17 @@ fn zuu() -> bool {
             clear();
             return true;
         }
-        if Confirm::new("Check the code again ? ")
-            .with_default(true)
-            .prompt()
-            .unwrap()
-            .eq(&true)
-        {
-            return false;
-        }
         return false;
     }
     clear();
     true
 }
 
+fn version() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package = metadata.packages.first().unwrap();
+    package.version.to_string()
+}
 fn clear() {
     if OS.eq("windows") {
         assert!(Command::new("cls")
@@ -333,13 +373,15 @@ fn prepare_commit() {
     commit(c.as_str());
 }
 
-fn publish() {
-    if Confirm::new("Publish ? ")
-        .with_default(false)
+fn confirm(msg: &str, default: bool) -> bool {
+    Confirm::new(msg)
+        .with_default(default)
         .prompt()
         .unwrap()
         .eq(&true)
-    {
+}
+fn publish() {
+    if confirm("Publish ?", false) {
         assert!(Command::new("cargo")
             .arg("publish")
             .current_dir(".")
@@ -352,12 +394,7 @@ fn publish() {
 }
 
 fn send() {
-    if Confirm::new("Send to remotes?")
-        .with_default(true)
-        .prompt()
-        .unwrap()
-        .eq(&true)
-    {
+    if confirm("Send to remotes ?", true) {
         assert!(Command::new("git")
             .arg("push")
             .arg("origin")
@@ -382,16 +419,14 @@ fn send() {
 }
 
 fn main() {
-    if Path::new(".git").exists().eq(&false) {
-        assert!(Command::new("git")
-            .arg("init")
-            .current_dir(".")
-            .spawn()
-            .unwrap()
-            .wait()
-            .unwrap()
-            .success());
-    }
+    assert!(Command::new("git")
+        .arg("init")
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
     if zuu() {
         diff();
         prepare_commit();
