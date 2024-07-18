@@ -147,6 +147,14 @@ paru -S commiter
 
 # Usage
 
+## First
+
+```bash
+cargo login
+```
+
+## Secondary
+
 ```bash
 cd repository && cargo-watch commiter
 ```
@@ -186,9 +194,7 @@ cd repository && cargo-watch commiter
 |                                   | Interstellar Communication | Informing, Sharing, Teaching, Educating, & Learning Lucidly & Clearly | Improving documentation or communication                  | `Interstellar Communication: Update wiki with troubleshooting guide for common errors` |
 | **Celestial Events**              | Solar Eclipse              | Sun Escapes, Legacy Code Lurks                               | Temporarily masking functionality.                        | `Solar Eclipse(Feature): Temporarily disable new onboarding flow for testing` |
 |                                   | Supernova                  | Sudden Unbelievable Performance Revolution, New Version Arrives | Major, transformative change or improvement.              | `Supernova(Architecture): Migrate to microservices architecture` |
-|                                   | Meteor Shower              | Many Edits, Tiny Overall Result, Overhaul Routines           | Series of small changes or fixes.                         | `Meteor Shower(UI): Fix various UI inconsistencies and typos` |
-|                                   | Solar Wind                 | Swift Optimization, Light and Refactored, Agile Wind         | Refactoring code structure.                               | `Solar Wind(Backend): Refactor authentication middleware for improved readability` |
-|                                   | Lunar Eclipse              | Less Used, Unnecessary Now, Available Returns                | Temporarily disabling a feature.                          | `Lunar Eclipse(Payments): Disable PayPal integration due to maintenance` |
+|                                   | Meteor Shower              | Many Edits, Tiny Overall Result, Overhaul Routines           | Series of small changes or fixes.                    Secondary              | Lunar Eclipse              | Less Used, Unnecessary Now, Available Returns                | Temporarily disabling a feature.                          | `Lunar Eclipse(Payments): Disable PayPal integration due to maintenance` |
 |                                   | Cosmic Dawn                | Creating Original, Simple, Minimal Initial Draft             | Initial implementation of a feature.                      | `Cosmic Dawn(Search): Initial implementation of basic search functionality` |
 |                                   | Solar Storm                | Sudden Transformations Occur Rapidly, Modifications          | Rapid, impactful changes.                                 | `Solar Storm(Refactor): Overhaul data processing pipeline for improved performance` |
 |                                   | Lunar Transit              | Little Update, Now Adjustments Require Testing               | Minor, temporary change.                                  | `Lunar Transit(Config): Temporarily adjust logging level for debugging` |

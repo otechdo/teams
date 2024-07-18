@@ -173,9 +173,26 @@ fn create_tag() {
         .wait()
         .unwrap()
         .success());
+    assert!(Command::new("cargo")
+        .arg("publish")
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
 }
 
 fn send_tag() {
+    assert!(Command::new("git")
+        .arg("push")
+        .arg("--all")
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
     assert!(Command::new("git")
         .arg("push")
         .arg("--tags")
