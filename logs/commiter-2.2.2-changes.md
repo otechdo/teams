@@ -12,6 +12,8 @@
 
 ### Initial commit or major feature start
 
+- can generate change log
+
 ### Reduction of codebase size or removal of features
 
 ### Merging features or components
