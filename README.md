@@ -142,6 +142,18 @@ Would you like me to elaborate on any of these points or provide more examples o
 cargo install zuu commiter cargo-watch
 ```
 
+## Install git-fame
+
+```bash
+pip install git-fame
+```
+
+### Define stats alias
+
+```bash
+git config --global alias.rank 'fame -s'
+```
+
 ## Arch Linux user install
 
 ```bash

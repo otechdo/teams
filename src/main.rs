@@ -536,12 +536,23 @@ fn send() {
 struct Commiter {
     #[argh(switch, description = "generate change log")]
     generate_change_log: Option<bool>,
+    #[argh(switch, description = "show commiter rank")]
+    rank: Option<bool>,
 }
 fn main() {
     let commiter: Commiter = argh::from_env();
 
     if commiter.generate_change_log.is_some() {
         create_changelog();
+    } else if commiter.rank.is_some() {
+        assert!(Command::new("git")
+            .arg("rank")
+            .current_dir(".")
+            .spawn()
+            .expect("missing alias")
+            .wait()
+            .unwrap()
+            .success());
     } else if Path::new(".git").exists() && zuu() {
         diff();
         prepare_commit();
