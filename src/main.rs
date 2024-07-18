@@ -458,30 +458,74 @@ fn prepare_commit() {
     if s.is_empty() {
         prepare_commit();
     }
-    let summary = Text::new("Please enter the commit summary : ")
-        .prompt()
-        .unwrap();
-    if summary.is_empty() {
-        prepare_commit();
+    let mut summary: String;
+    loop {
+        summary = Text::new("Please enter the commit summary : ")
+            .prompt()
+            .unwrap();
+        if summary.is_empty() {
+            continue;
+        }
+        if summary.len().gt(&50) {
+            println!("Summary must be contains less than 50 chararacter");
+            continue;
+        }
+        break;
     }
 
-    let body = Text::new("Please enter the commit body : ")
-        .prompt()
-        .unwrap();
-    let footer = Text::new("Please enter the commit footer : ")
-        .prompt()
-        .unwrap();
+    let mut description: String;
+    loop {
+        description = Text::new("Please enter the commit description : ")
+            .prompt()
+            .unwrap();
+        if description.is_empty() {
+            continue;
+        }
+        break;
+    }
 
+    let mut why: String = String::new();
+    loop {
+        let w = Text::new("Please explain the reasoning behind the change : ")
+            .prompt()
+            .unwrap();
+        if w.is_empty() {
+            continue;
+        }
+        if w.len().gt(&50) {
+            println!("the reasoning behind the change must be contains less than 50 chararacter");
+            continue;
+        }
+        if confirm("Continue to write the changes : ", true) {
+            why.push_str(format!("\n* {w}").as_str());
+            continue;
+        }
+        break;
+    }
+    let mut footer: String = String::new();
+    loop {
+        let f = Text::new("Please enter the commit footer : ")
+            .prompt()
+            .unwrap();
+        if f.is_empty() {
+            continue;
+        }
+        if confirm("Continue to write the footer : ", true) {
+            footer.push_str(format!("\n* {f}").as_str());
+            continue;
+        }
+        break;
+    }
     let c: String = if help {
         let x: Vec<&str> = t.split(':').collect();
         format!(
-            "{}({s}): {}\n{body}\n{footer}\n",
+            "{}({s}): {}\n{description}\nThe following changes were made:\n{why}\n{footer}\n",
             x.first().unwrap(),
             summary.to_lowercase().replace('.', "")
         )
     } else {
         format!(
-            "{t}({s}): {}\n{body}\n{footer}\n",
+            "{t}({s}): {}\n{description}\nThe following changes were made:\n{why}\n{footer}\n",
             summary.to_lowercase().replace('.', "")
         )
     };
