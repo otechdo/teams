@@ -217,6 +217,12 @@ fn create_changelog() {
         }
     }
     fs::remove_file("log").expect("msg");
+    diff();
+    prepare_commit();
+    send();
+    if Path::new("Cargo.toml").exists() {
+        publish();
+    }
 }
 
 fn create_patch() {

@@ -20,6 +20,8 @@
 
 ### Removing large chunks of code or features
 
+- remove unseless callback
+
 ### Undeveloped feature with potential
 
 ### Bug fix or error resolution
