@@ -244,7 +244,6 @@ fn create_tag() {
     if m.is_empty() || v.is_empty() {
         create_tag();
     }
-    create_changelog();
     assert!(Command::new("git")
         .arg("tag")
         .arg("-a")
@@ -299,7 +298,6 @@ fn commit(m: &str) {
         .unwrap()
         .success());
     create_patch();
-    create_changelog();
     if confirm("Create new tag", false) {
         create_tag();
         send_tag();

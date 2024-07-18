@@ -82,6 +82,8 @@
 
 ### Optimizing code for performance
 
+- auto update change log after all commits
+
 ### Changing project direction
 
 ### Brings the project closer to its goals or objectives
@@ -97,6 +99,8 @@
 ### Experimental or speculative change
 
 ### Documentation or clarity improvement
+
+- add generation change log comand
 
 - update change log
 
@@ -131,6 +135,8 @@
 ### Urgent production hotfixes
 
 ### New feature or enhancement
+
+- auto update change log after all commits
 
 ### Creating or improving environments
 

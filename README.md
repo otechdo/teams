@@ -161,7 +161,7 @@ cd repository && cargo-watch commiter
 
 Change log generation mode
 
-```bash 
+```bash
 cd repository && watch -n 60 commiter --generate-change-log
 ```
 
