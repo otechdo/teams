@@ -6,6 +6,7 @@
 - Usage
   - [Commit Message Format](https://file+.vscode-resource.vscode-cdn.net/var/home/otechdo/Ness/Rust/otechdo/commiter/README.md#commit-message-format)
 - [Commit Types](https://file+.vscode-resource.vscode-cdn.net/var/home/otechdo/Ness/Rust/otechdo/commiter/README.md#commit-types)
+- [New realease changes](https://github.com/otechdo/commiter/blob/master/logs/commiter-2.2.2-changes.md)
 
 # Committer
 
@@ -40,6 +41,8 @@ Key aspects of the Cosmic Commits project:
 - **Tooling:** The project can be enhanced with tools like `commitizen` or `cz-cli` to automate commit message creation and validation, ensuring consistency and adherence to the chosen conventions.
 
 The overall goal of Cosmic Commits is to make Git commit messages more informative, engaging, and enjoyable for developers, ultimately leading to better collaboration, maintainability, and understanding of the project's history.
+
+
 
 ## Why use it ?
 
