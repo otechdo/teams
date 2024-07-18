@@ -98,6 +98,8 @@
 
 ### Documentation or clarity improvement
 
+- update change log
+
 ### Expanding a feature or functionality
 
 ### Changes related to time, dates, or timestamps

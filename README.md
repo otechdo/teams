@@ -153,11 +153,19 @@ paru -S commiter
 cargo login
 ```
 
-## Secondary
+## Commit mode
 
 ```bash
 cd repository && cargo-watch commiter
 ```
+
+Change log generation mode
+
+```bash 
+cd repository && watch -n 60 commiter --generate-change-log
+```
+
+> Generate change log every minutes
 
 ## Commit Message Format
 

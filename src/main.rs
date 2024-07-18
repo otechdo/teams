@@ -324,7 +324,6 @@ fn diff() {
             .wait()
             .unwrap()
             .success());
-
         if confirm("Add modifications ?", false) {
             assert!(Command::new("git")
                 .arg("add")
@@ -335,14 +334,7 @@ fn diff() {
                 .wait()
                 .unwrap()
                 .success());
-            if Confirm::new("Do you want commit changes ? ")
-                .with_default(true)
-                .prompt()
-                .unwrap()
-                .eq(&true)
-            {
-                break;
-            }
+            break;
         }
     }
 }
