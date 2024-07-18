@@ -30,6 +30,8 @@
 
 ### Bug fix or error resolution
 
+- separate summary and description
+
 - fix commit message format use corectness commit format
 
 - fix duplicate first contact type

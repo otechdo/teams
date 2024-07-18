@@ -515,7 +515,7 @@ fn prepare_commit() {
         if f.is_empty() {
             continue;
         }
-        footer.push_str(format!("\n {f}").as_str());
+        footer.push_str(format!("\n{f}").as_str());
         if confirm("Continue to write the footer : ", true) {
             continue;
         }
