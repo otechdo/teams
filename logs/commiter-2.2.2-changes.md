@@ -26,6 +26,8 @@
 
 ### Bug fix or error resolution
 
+- fix duplicate first contact type
+
 ### Initial implementation of a feature
 
 ### Connecting code parts
@@ -37,8 +39,6 @@
 ### Comprehensive optimization of a specific area
 
 ### Scaling up the system or increasing capacity
-
-### Indicates the initial establishment of connections or integrations
 
 ### Initial integrations with external systems
 
@@ -67,6 +67,8 @@
 ### Temporarily disabling a feature
 
 ### Minor, temporary change
+
+- add changelog link for release 222
 
 ### Series of small changes or fixes
 
@@ -103,6 +105,8 @@
 ### Experimental or speculative change
 
 ### Documentation or clarity improvement
+
+- update changes log
 
 - add generation change log comand
 
