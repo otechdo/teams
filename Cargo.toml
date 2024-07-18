@@ -1,13 +1,15 @@
 [package]
 name = "commiter"
-version = "2.1.2"
+version = "2.2.2"
 edition = "2021"
 license-file = "LICENSE"
+authors = ["Willy Micieli"]
 repository = "https://github.com/otechdo/commiter"
 categories = ["development-tools"]
 description = "A rust program to ensure the quality of commit"
 keywords = ["git", "zuu", "commit", "quality", "rust"]
 readme = "README.md"
 [dependencies]
+argh = "0.1.12"
 cargo_metadata = "0.18.1"
 inquire = "0.7.5"

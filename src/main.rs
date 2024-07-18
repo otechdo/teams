@@ -1,10 +1,13 @@
 #![allow(clippy::multiple_crate_versions)]
 
+use argh::FromArgs;
 use cargo_metadata::MetadataCommand;
 use inquire::{Confirm, Select, Text};
 use std::env::consts::OS;
-use std::fs;
+use std::fs::{self, read_to_string, File};
+use std::io::Write;
 use std::path::Path;
+use std::path::MAIN_SEPARATOR_STR;
 use std::process::Command;
 
 pub const TYPES: [&str; 69] = [
@@ -143,13 +146,78 @@ const HELP: [&str; 69] = [
     "Mission Control: Represents project management-related changes",
     "Moon Landing: Celebrates the completion of major milestones",
     "First Contact: Indicates the initial establishment of connections or integrations",
-    "Interstellar Travel: Migration to a new architecture or language.",
-    "Rover: Exploration of new technologies or approaches.",
+    "Interstellar Travel: Migration to a new architecture or language",
+    "Rover: Exploration of new technologies or approaches",
     "Singularity: Resolution of a complex or hard-to-reproduce issue",
-    "Relativity: Changes related to time, dates, or timestamps.",
+    "Relativity: Changes related to time, dates, or timestamps",
     "Expansion: Scaling up the system or increasing capacity",
-    "Big Crunch: Reduction of codebase size or removal of features.",
+    "Big Crunch: Reduction of codebase size or removal of features",
 ];
+
+fn get_last_tag() -> String {
+    let tag: String = String::from_utf8(
+        Command::new("git")
+            .arg("describe")
+            .arg("--tags")
+            .arg("--abbrev=0")
+            .current_dir(".")
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .expect("Faile to find a TAG");
+    let data: Vec<&str> = tag.split('\n').collect();
+    (*data.first().expect("msg")).to_string()
+}
+fn get_log() -> String {
+    let log = File::create("log").expect("failed to create log");
+    let d = format!("{}..HEAD", get_last_tag());
+    assert!(Command::new("git")
+        .arg("log")
+        .arg(d.as_str())
+        .arg("--oneline")
+        .stdout(log)
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
+    read_to_string("log").expect("failed to parse file")
+}
+
+fn create_changelog() {
+    if Path::new("./logs").is_dir().eq(&false) {
+        fs::create_dir_all("./logs").expect("msg");
+    }
+    let filename = format!(
+        "./logs{MAIN_SEPARATOR_STR}{}-{}-changes.md",
+        project(),
+        version()
+    );
+    let logs = get_log();
+    let lines = logs.lines();
+    let mut f = File::create(filename.as_str()).expect("failed to create file");
+    writeln!(f, "# {}\n\n> {}\n", project(), description()).expect("msg");
+    writeln!(f, "## Authors\n").expect("msg");
+    for author in authors() {
+        writeln!(f, "- {author}").expect("msg");
+    }
+    for t in commit_types_with_help() {
+        let ttt: Vec<&str> = t.split(':').collect();
+        let title = (*ttt.last().unwrap()).to_string();
+        writeln!(f, "\n###{title}").expect("msg");
+        for line in lines.clone() {
+            let current = (*ttt.first().unwrap()).to_string();
+            if line.contains(current.as_str()) {
+                let lll = line.split(':');
+                let l = (*lll.last().unwrap()).to_string();
+                writeln!(f, "\n-{l}").expect("msg");
+            }
+        }
+    }
+    fs::remove_file("log").expect("msg");
+}
 
 fn create_patch() {
     if Path::new("./patches").exists().eq(&false) {
@@ -176,6 +244,7 @@ fn create_tag() {
     if m.is_empty() || v.is_empty() {
         create_tag();
     }
+    create_changelog();
     assert!(Command::new("git")
         .arg("tag")
         .arg("-a")
@@ -316,6 +385,30 @@ fn version() -> String {
     let package = metadata.packages.first().unwrap();
     package.version.to_string()
 }
+
+fn project() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package.name.to_string()
+}
+///
+/// # Panics
+///
+fn description() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package
+        .description
+        .as_ref()
+        .expect("missing description")
+        .to_string()
+}
+
+fn authors() -> Vec<String> {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package.authors.clone()
+}
 fn clear() {
     if OS.eq("windows") {
         assert!(Command::new("cls")
@@ -443,16 +536,18 @@ fn send() {
     }
 }
 
+#[derive(FromArgs)]
+#[argh(description = "lanage repository commit")]
+struct Commiter {
+    #[argh(switch, description = "generate change log")]
+    generate_change_log: Option<bool>,
+}
 fn main() {
-    assert!(Command::new("git")
-        .arg("init")
-        .current_dir(".")
-        .spawn()
-        .unwrap()
-        .wait()
-        .unwrap()
-        .success());
-    if zuu() {
+    let commiter: Commiter = argh::from_env();
+
+    if commiter.generate_change_log.is_some() {
+        create_changelog();
+    } else if Path::new(".git").exists() && zuu() {
         diff();
         prepare_commit();
         send();
