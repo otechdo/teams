@@ -299,6 +299,7 @@ fn commit(m: &str) {
         .unwrap()
         .success());
     create_patch();
+    create_changelog();
     if confirm("Create new tag", false) {
         create_tag();
         send_tag();
