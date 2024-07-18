@@ -3,6 +3,7 @@
 use cargo_metadata::MetadataCommand;
 use inquire::{Confirm, Select, Text};
 use std::env::consts::OS;
+use std::fs;
 use std::path::Path;
 use std::process::Command;
 
@@ -150,6 +151,20 @@ const HELP: [&str; 69] = [
     "Big Crunch: Reduction of codebase size or removal of features.",
 ];
 
+fn create_patch() {
+    if Path::new("./patches").exists().eq(&false) {
+        assert!(fs::create_dir_all("./patches").is_ok());
+    }
+    assert!(Command::new("git")
+        .arg("format-patch")
+        .arg("-1")
+        .current_dir("./patches")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
+}
 fn create_tag() {
     let m: String = Text::new("Enter the tag message : ").prompt().unwrap();
 
@@ -214,7 +229,7 @@ fn commit(m: &str) {
         .wait()
         .unwrap()
         .success());
-
+    create_patch();
     if confirm("Create new tag", false) {
         create_tag();
         send_tag();
@@ -225,7 +240,7 @@ fn diff() {
     loop {
         clear();
         assert!(Command::new("git")
-            .arg("status")
+            .arg("diff")
             .current_dir(".")
             .spawn()
             .unwrap()
@@ -233,7 +248,7 @@ fn diff() {
             .unwrap()
             .success());
         assert!(Command::new("git")
-            .arg("diff")
+            .arg("status")
             .current_dir(".")
             .spawn()
             .unwrap()
