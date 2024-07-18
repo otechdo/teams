@@ -12,6 +12,10 @@
 
 ### Initial commit or major feature start
 
+-
+
+- add commiter rank
+
 - can generate change log
 
 ### Reduction of codebase size or removal of features
@@ -25,6 +29,8 @@
 ### Undeveloped feature with potential
 
 ### Bug fix or error resolution
+
+- fix commit message format use corectness commit format
 
 - fix duplicate first contact type
 
@@ -82,6 +88,8 @@
 
 ### Code refactoring
 
+- rewrite readme
+
 - change add command question
 
 ### Optimizing code for performance
@@ -105,6 +113,10 @@
 ### Experimental or speculative change
 
 ### Documentation or clarity improvement
+
+- update reamde documentation
+
+- update change log
 
 - update changes log
 

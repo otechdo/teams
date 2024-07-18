@@ -208,9 +208,14 @@ fn create_changelog() {
         for line in lines.clone() {
             let current = (*ttt.first().unwrap()).to_string();
             if line.contains(current.as_str()) {
-                let lll = line.split(':');
-                let l = (*lll.last().unwrap()).to_string();
-                writeln!(f, "\n-{l}").expect("msg");
+                let lll = line.split('\n');
+                for l in lll {
+                    let c = l.replace(ttt.first().unwrap(), "");
+                    let cc: Vec<&str> = c.split(':').collect();
+                    let ccc: Vec<&str> = cc.last().unwrap().split('\n').collect();
+                    let message = ccc.join("\n");
+                    writeln!(f, "\n-{message}").expect("msg");
+                }
             }
         }
     }
@@ -510,7 +515,7 @@ fn prepare_commit() {
         if f.is_empty() {
             continue;
         }
-        footer.push_str(format!("\n* {f}").as_str());
+        footer.push_str(format!("\n {f}").as_str());
         if confirm("Continue to write the footer : ", true) {
             continue;
         }
@@ -519,13 +524,13 @@ fn prepare_commit() {
     let c: String = if help {
         let x: Vec<&str> = t.split(':').collect();
         format!(
-            "{}({s}): {}\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
+            "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
             x.first().unwrap(),
             summary.to_lowercase().replace('.', "")
         )
     } else {
         format!(
-            "{t}({s}): {}\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
+            "{t}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
             summary.to_lowercase().replace('.', "")
         )
     };
