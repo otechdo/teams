@@ -6,7 +6,7 @@ use std::process::Command;
 
 use inquire::{Confirm, Select, Text};
 
-const TYPES: [&str; 69] = [
+pub const TYPES: [&str; 69] = [
     "Star",
     "Comet",
     "Nebula",
@@ -77,6 +77,7 @@ const TYPES: [&str; 69] = [
     "Expansion",
     "Big Crunch",
 ];
+
 const HELP: [&str; 69] = [
     "Star: New feature or enhancement",
     "Comet: Bug fix or error resolution",
@@ -350,16 +351,9 @@ fn publish() {
     }
 }
 
-fn quit() -> bool {
-    Confirm::new("Quit commiter?")
-        .with_default(false)
-        .prompt()
-        .unwrap()
-}
-
 fn send() {
     if Confirm::new("Send to remotes?")
-        .with_default(false)
+        .with_default(true)
         .prompt()
         .unwrap()
         .eq(&true)
@@ -398,18 +392,12 @@ fn main() {
             .unwrap()
             .success());
     }
-    loop {
-        if zuu() {
-            diff();
-            prepare_commit();
-            send();
-            if Path::new("Cargo.toml").exists() {
-                publish();
-            }
-            if quit() {
-                break;
-            }
+    if zuu() {
+        diff();
+        prepare_commit();
+        send();
+        if Path::new("Cargo.toml").exists() {
+            publish();
         }
     }
-    println!("Bye");
 }
