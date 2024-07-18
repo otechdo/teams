@@ -178,7 +178,6 @@ fn create_tag() {
 fn send_tag() {
     assert!(Command::new("git")
         .arg("push")
-        .arg("origin")
         .arg("--tags")
         .current_dir(".")
         .spawn()
@@ -397,7 +396,6 @@ fn send() {
     if confirm("Send to remotes ?", true) {
         assert!(Command::new("git")
             .arg("push")
-            .arg("origin")
             .arg("--all")
             .current_dir(".")
             .spawn()
@@ -407,7 +405,6 @@ fn send() {
             .success());
         assert!(Command::new("git")
             .arg("push")
-            .arg("origin")
             .arg("--tags")
             .current_dir(".")
             .spawn()
