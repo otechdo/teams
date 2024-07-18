@@ -84,6 +84,8 @@
 
 ### Optimizing code for performance
 
+- run commit after generate change log
+
 - auto update change log after all commits
 
 ### Changing project direction
@@ -137,6 +139,8 @@
 ### Urgent production hotfixes
 
 ### New feature or enhancement
+
+- run commit after generate change log
 
 - auto update change log after all commits
 
