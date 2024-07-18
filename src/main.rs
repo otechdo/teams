@@ -255,12 +255,8 @@ fn diff() {
             .wait()
             .unwrap()
             .success());
-        if Confirm::new("Run git add ?: ")
-            .with_default(false)
-            .prompt()
-            .unwrap()
-            .eq(&true)
-        {
+
+        if confirm("Add modifications ?", false) {
             assert!(Command::new("git")
                 .arg("add")
                 .arg(".")
