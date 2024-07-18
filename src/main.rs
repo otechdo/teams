@@ -496,8 +496,8 @@ fn prepare_commit() {
             println!("the reasoning behind the change must be contains less than 50 chararacter");
             continue;
         }
+        why.push_str(format!("\n* {w}").as_str());
         if confirm("Continue to write the changes : ", true) {
-            why.push_str(format!("\n* {w}").as_str());
             continue;
         }
         break;
@@ -510,8 +510,8 @@ fn prepare_commit() {
         if f.is_empty() {
             continue;
         }
+        footer.push_str(format!("\n* {f}").as_str());
         if confirm("Continue to write the footer : ", true) {
-            footer.push_str(format!("\n* {f}").as_str());
             continue;
         }
         break;
@@ -519,13 +519,13 @@ fn prepare_commit() {
     let c: String = if help {
         let x: Vec<&str> = t.split(':').collect();
         format!(
-            "{}({s}): {}\n{description}\nThe following changes were made:\n{why}\n{footer}\n",
+            "{}({s}): {}\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
             x.first().unwrap(),
             summary.to_lowercase().replace('.', "")
         )
     } else {
         format!(
-            "{t}({s}): {}\n{description}\nThe following changes were made:\n{why}\n{footer}\n",
+            "{t}({s}): {}\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
             summary.to_lowercase().replace('.', "")
         )
     };
