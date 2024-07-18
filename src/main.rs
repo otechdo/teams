@@ -10,7 +10,7 @@ use std::path::Path;
 use std::path::MAIN_SEPARATOR_STR;
 use std::process::Command;
 
-pub const TYPES: [&str; 69] = [
+pub const TYPES: [&str; 68] = [
     "Star",
     "Comet",
     "Nebula",
@@ -73,7 +73,6 @@ pub const TYPES: [&str; 69] = [
     "Orbital Maneuver",
     "Mission Control",
     "Moon Landing",
-    "First Contact",
     "Interstellar Travel",
     "Rover",
     "Singularity",
@@ -82,7 +81,7 @@ pub const TYPES: [&str; 69] = [
     "Big Crunch",
 ];
 
-const HELP: [&str; 69] = [
+const HELP: [&str; 68] = [
     "Star: New feature or enhancement",
     "Comet: Bug fix or error resolution",
     "Nebula: Code refactoring",
@@ -145,7 +144,6 @@ const HELP: [&str; 69] = [
     "Orbital Maneuver: Changing project direction",
     "Mission Control: Represents project management-related changes",
     "Moon Landing: Celebrates the completion of major milestones",
-    "First Contact: Indicates the initial establishment of connections or integrations",
     "Interstellar Travel: Migration to a new architecture or language",
     "Rover: Exploration of new technologies or approaches",
     "Singularity: Resolution of a complex or hard-to-reproduce issue",
@@ -426,13 +424,13 @@ fn clear() {
     }
 }
 
-fn commit_types() -> [&'static str; 69] {
+fn commit_types() -> [&'static str; 68] {
     let mut x = TYPES;
     x.sort_unstable();
     x
 }
 
-fn commit_types_with_help() -> [&'static str; 69] {
+fn commit_types_with_help() -> [&'static str; 68] {
     let mut x = HELP;
     x.sort_unstable();
     x
