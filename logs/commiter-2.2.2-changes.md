@@ -26,6 +26,8 @@
 
 - Removing large chunks of code or features
 
+  - remove basic types constant
+
   - remove unseless callback
 
 - Undeveloped feature with potential
@@ -196,13 +198,13 @@
 
 ## Rank
 
-Total commits: 56
-Total ctimes: 455
+Total commits: 57
+Total ctimes: 443
 Total files: 8
-Total loc: 3059
+Total loc: 2965
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  3059 |     56 |      8 | 100.0/ 100/100.0 |
+| Willy Micieli |  2965 |     57 |      8 | 100.0/ 100/100.0 |
 
 ## License
 
