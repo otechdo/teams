@@ -611,6 +611,8 @@ fn name() -> String {
             .stdout,
     )
     .expect("msg")
+    .trim()
+    .to_string()
 }
 fn send() {
     if confirm("Send to remotes ?", true) {
