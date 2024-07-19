@@ -617,6 +617,15 @@ fn name() -> String {
 fn send() {
     if confirm("Send to remotes ?", true) {
         assert!(Command::new("git")
+            .arg("pull")
+            .arg("--rebase")
+            .current_dir(".")
+            .spawn()
+            .unwrap()
+            .wait()
+            .unwrap()
+            .success());
+        assert!(Command::new("git")
             .arg("push")
             .arg("--all")
             .current_dir(".")
