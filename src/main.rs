@@ -236,7 +236,15 @@ fn create_changelog() {
             }
         }
     }
-    writeln!(f, "\n## Rank\n\n{}", get_rank()).expect("msg");
+    writeln!(
+        f,
+        "\n## Rank\n\n{}\n\n## License\n\n```\n{}\n```",
+        get_rank(),
+        read_to_string("LICENSE")
+            .expect("LINCENSE file not founded")
+            .trim()
+    )
+    .expect("msg");
     remove_file("log").expect("failed to remove log");
     remove_file("rank").expect("failed to remove log");
     diff();
