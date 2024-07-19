@@ -221,13 +221,25 @@ Cosmic commit types offer a unique and engaging way to categorise and describe c
 #### Example
 
 ```
- Quasar(changeslog): update changelog
+  Comet(commit): fix commit output format
+   
+  clean log commit format
 
-    add latest commit in changelog
+  fix identation bug
 
-    The following changes were made:
+  The following changes were made:
+      
+      * clean commit output
+      * fix commit issues not closed
+      * better output visibility
 
-    * add missing commit
+  The changes :
 
-    clean changelog
+      Fixes #1
+
+      Fixes #2
+
+      Fixes #3
+
+  Co-authored-by: Willy Micieli <otechdo@otechdo.com>
 ```

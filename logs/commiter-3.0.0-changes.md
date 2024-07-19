@@ -102,6 +102,8 @@
 
 - Documentation or clarity improvement
 
+  - update changelog
+
 - Expanding a feature or functionality
 
 - Changes related to time, dates, or timestamps
@@ -154,13 +156,13 @@
 
 ## Rank
 
-Total commits: 63
-Total ctimes: 455
+Total commits: 64
+Total ctimes: 463
 Total files: 9
-Total loc: 3896
+Total loc: 3904
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  3896 |     63 |      9 | 100.0/ 100/100.0 |
+| Willy Micieli |  3904 |     64 |      9 | 100.0/ 100/100.0 |
 
 ## License
 
