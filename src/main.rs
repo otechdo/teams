@@ -431,7 +431,8 @@ fn commit_types() -> String {
             break;
         }
     }
-    t
+    let x: Vec<&str> = t.split(':').collect();
+    (*x.first().unwrap()).to_string()
 }
 
 fn commit_summary() -> String {
@@ -515,16 +516,14 @@ fn commit_footer() -> String {
     }
     if confirm("Code has resolving issues ?", false) {
         loop {
-            footer.push_str("Fixes ");
+            footer.push_str("\n\tFixes ");
             let f = Text::new("Please enter the issue number : ")
                 .prompt()
                 .unwrap();
             if f.is_empty() {
                 continue;
             }
-            let mut fix = f.replace('#', "");
-            fix.push_str(format!("#{fix}\n").as_str());
-            footer.push_str(fix.as_str());
+            footer.push_str(format!("#{f}\n").as_str());
             if confirm("Code resolving an other issues ?", false) {
                 continue;
             }
@@ -533,29 +532,25 @@ fn commit_footer() -> String {
     }
     if confirm("Code resolve an issue ?", false) {
         loop {
-            footer.push_str("Closes ");
+            footer.push_str("\n\tCloses ");
             let f = Text::new("Please enter the issue number : ")
                 .prompt()
                 .unwrap();
             if f.is_empty() {
                 continue;
             }
-            loop {
-                let mut fix = f.replace('#', "");
-                fix.push_str(format!("#{fix}\n").as_str());
-                footer.push_str(fix.as_str());
-                if confirm("Code resolve an other issue ?", false) {
-                    continue;
-                }
-                break;
+            footer.push_str(format!("#{f}\n").as_str());
+            if confirm("Code resolve an other issue ?", false) {
+                continue;
             }
+            break;
         }
     }
     footer
 }
 fn prepare_commit() {
     let c = format!(
-        "{}({}): {}\n\n{}\n\nThe following changes were made:\n\t{}\n\nThe changes were made:\n\t{}\n\nCo-authored-by: {} <{}>",
+        "{}({}): {}\n\n{}\n\nThe following changes were made:\n\t{}\n\nThe changes :\n{}\n\nCo-authored-by: {} <{}>",
         commit_types(),
         commit_scope(),
         commit_summary(),
@@ -600,6 +595,8 @@ fn email() -> String {
             .stdout,
     )
     .expect("msg")
+    .trim()
+    .to_string()
 }
 
 fn name() -> String {
