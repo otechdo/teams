@@ -184,6 +184,23 @@ fn get_log() -> String {
     read_to_string("log").expect("failed to parse file")
 }
 
+fn get_rank() -> String {
+    let log = File::create("rank").expect("failed to create rank");
+    assert!(Command::new("git")
+        .arg("rank")
+        .stdout(log)
+        .current_dir(".")
+        .spawn()
+        .unwrap()
+        .wait()
+        .unwrap()
+        .success());
+    read_to_string("rank")
+        .expect("failed to parse file")
+        .trim()
+        .to_string()
+}
+
 fn create_changelog() {
     if Path::new("./logs").is_dir().eq(&false) {
         fs::create_dir_all("./logs").expect("msg");
@@ -219,7 +236,9 @@ fn create_changelog() {
             }
         }
     }
+    writeln!(f, "\n## Rank\n\n{}", get_rank()).expect("msg");
     remove_file("log").expect("failed to remove log");
+    remove_file("rank").expect("failed to remove log");
     diff();
     prepare_commit();
     send();

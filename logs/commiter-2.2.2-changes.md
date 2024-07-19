@@ -120,6 +120,8 @@
 
 - Documentation or clarity improvement
 
+  - use ordened list for changelog
+
   - update reamde documentation
 
   - update change log
@@ -183,3 +185,13 @@
 - Improving code comments or documentation
 
 - Merging branches or connecting code parts
+
+## Rank
+
+Total commits: 52
+Total ctimes: 439
+Total files: 8
+Total loc: 2335
+| Author        |   loc |   coms |   fils |  distribution    |
+|:--------------|------:|-------:|-------:|:-----------------|
+| Willy Micieli |  2335 |     52 |      8 | 100.0/ 100/100.0 |
