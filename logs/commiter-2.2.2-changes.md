@@ -52,6 +52,8 @@
 
 - Minor updates or fixes
 
+  - add license content in change log
+
 - Comprehensive optimization of a specific area
 
 - Scaling up the system or increasing capacity
@@ -194,13 +196,13 @@
 
 ## Rank
 
-Total commits: 55
-Total ctimes: 454
+Total commits: 56
+Total ctimes: 455
 Total files: 8
-Total loc: 2370
+Total loc: 3059
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  2370 |     55 |      8 | 100.0/ 100/100.0 |
+| Willy Micieli |  3059 |     56 |      8 | 100.0/ 100/100.0 |
 
 ## License
 

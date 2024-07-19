@@ -10,77 +10,6 @@ use std::path::Path;
 use std::path::MAIN_SEPARATOR_STR;
 use std::process::Command;
 
-pub const TYPES: [&str; 68] = [
-    "Star",
-    "Comet",
-    "Nebula",
-    "Pulsar",
-    "Quasar",
-    "Asteroid Belt",
-    "Solar Flare",
-    "Dwarf Planet",
-    "Terraform",
-    "Black Hole",
-    "Wormhole",
-    "Big Bang",
-    "Launch",
-    "Lightspeed",
-    "Mission Control",
-    "Spacewalk",
-    "Moon Landing",
-    "First Contact",
-    "Interstellar Communication",
-    "Solar Eclipse",
-    "Supernova",
-    "Meteor Shower",
-    "Solar Wind",
-    "Lunar Eclipse",
-    "Cosmic Dawn",
-    "Solar Storm",
-    "Lunar Transit",
-    "Perihelion",
-    "Aphelion",
-    "White Dwarf",
-    "Red Giant",
-    "Neutron Star",
-    "Binary Star",
-    "Brown Dwarf",
-    "Quark Star",
-    "Rogue Planet",
-    "Stellar Nursery",
-    "Planetary Nebula",
-    "Globular Cluster",
-    "Void",
-    "Gravity",
-    "Dark Matter",
-    "Time Dilation",
-    "Spacetime",
-    "Gravitational Lensing",
-    "Cosmic String",
-    "Quantum Fluctuation",
-    "Hawking Radiation",
-    "Quantum Entanglement",
-    "Gravitational Redshift",
-    "Space Probe",
-    "Station",
-    "Rocket Launch",
-    "Spacewalk",
-    "Space Elevator",
-    "Warp Drive",
-    "Dyson Sphere",
-    "Generation Ship",
-    "Lagrange Point",
-    "Orbital Maneuver",
-    "Mission Control",
-    "Moon Landing",
-    "Interstellar Travel",
-    "Rover",
-    "Singularity",
-    "Relativity",
-    "Expansion",
-    "Big Crunch",
-];
-
 const HELP: [&str; 68] = [
     "Star: New feature or enhancement",
     "Comet: Bug fix or error resolution",
@@ -456,12 +385,6 @@ fn clear() {
     }
 }
 
-fn commit_types() -> [&'static str; 68] {
-    let mut x = TYPES;
-    x.sort_unstable();
-    x
-}
-
 fn commit_types_with_help() -> [&'static str; 68] {
     let mut x = HELP;
     x.sort_unstable();
@@ -469,21 +392,9 @@ fn commit_types_with_help() -> [&'static str; 68] {
 }
 
 fn prepare_commit() {
-    let help = Confirm::new("Display commit type with help message ?")
-        .with_default(false)
+    let t = Select::new("Select a commit type : ", commit_types_with_help().to_vec())
         .prompt()
-        .unwrap()
-        .eq(&true);
-    let t = if help {
-        Select::new("Select a commit type : ", commit_types_with_help().to_vec())
-            .prompt()
-            .unwrap()
-    } else {
-        Select::new("Select a commit type : ", commit_types().to_vec())
-            .prompt()
-            .unwrap()
-    };
-
+        .unwrap();
     let s = Text::new("Please enter the commit scope : ")
         .prompt()
         .unwrap();
@@ -548,19 +459,12 @@ fn prepare_commit() {
         }
         break;
     }
-    let c: String = if help {
-        let x: Vec<&str> = t.split(':').collect();
-        format!(
-            "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
-            x.first().unwrap(),
-            summary.to_lowercase().replace('.', "")
-        )
-    } else {
-        format!(
-            "{t}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
-            summary.to_lowercase().replace('.', "")
-        )
-    };
+    let x: Vec<&str> = t.split(':').collect();
+    let c = format!(
+        "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
+        x.first().unwrap(),
+        summary.to_lowercase().replace('.', "")
+    );
     commit(c.as_str());
 }
 
