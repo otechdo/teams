@@ -32,6 +32,8 @@
 
 - Bug fix or error resolution
 
+  - fix docs bad typo
+
   - fix empty summary in changelog
 
   - fix footer indentation output
@@ -190,10 +192,10 @@
 
 ## Rank
 
-Total commits: 53
-Total ctimes: 445
+Total commits: 54
+Total ctimes: 453
 Total files: 8
-Total loc: 2366
+Total loc: 2368
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  2366 |     53 |      8 | 100.0/ 100/100.0 |
+| Willy Micieli |  2368 |     54 |      8 | 100.0/ 100/100.0 |
