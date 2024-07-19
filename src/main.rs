@@ -600,7 +600,7 @@ fn send() {
 }
 
 #[derive(FromArgs)]
-#[argh(description = "lanage repository commit")]
+#[argh(description = "manage the repository commit message and changelog")]
 struct Commiter {
     #[argh(switch, description = "generate change log")]
     generate_change_log: Option<bool>,

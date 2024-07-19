@@ -12,6 +12,8 @@
 
 - Initial commit or major feature start
 
+  - add rank in changelog
+
   - change commit message format
 
   - add commiter rank
@@ -188,10 +190,10 @@
 
 ## Rank
 
-Total commits: 52
-Total ctimes: 439
+Total commits: 53
+Total ctimes: 445
 Total files: 8
-Total loc: 2335
+Total loc: 2366
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  2335 |     52 |      8 | 100.0/ 100/100.0 |
+| Willy Micieli |  2366 |     53 |      8 | 100.0/ 100/100.0 |
