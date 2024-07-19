@@ -12,6 +12,10 @@
 
 - Initial commit or major feature start
 
+  - improve commit generation
+
+  - create new changelog
+
 - Reduction of codebase size or removal of features
 
 - Merging features or components
@@ -23,6 +27,10 @@
 - Undeveloped feature with potential
 
 - Bug fix or error resolution
+
+  - fix issue n°4
+
+  - fix commit output format
 
 - Initial implementation of a feature
 
@@ -146,13 +154,13 @@
 
 ## Rank
 
-Total commits: 59
-Total ctimes: 421
-Total files: 8
-Total loc: 2936
+Total commits: 63
+Total ctimes: 455
+Total files: 9
+Total loc: 3896
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  2936 |     59 |      8 | 100.0/ 100/100.0 |
+| Willy Micieli |  3896 |     63 |      9 | 100.0/ 100/100.0 |
 
 ## License
 
