@@ -12,7 +12,7 @@
 
 ### Initial commit or major feature start
 
--
+- change commit message format
 
 - add commiter rank
 
@@ -30,9 +30,11 @@
 
 ### Bug fix or error resolution
 
+- fix footer indentation output
+
 - separate summary and description
 
-- fix commit message format use corectness commit format
+- fix commit message format
 
 - fix duplicate first contact type
 

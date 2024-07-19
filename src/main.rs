@@ -4,7 +4,7 @@ use argh::FromArgs;
 use cargo_metadata::MetadataCommand;
 use inquire::{Confirm, Select, Text};
 use std::env::consts::OS;
-use std::fs::{self, read_to_string, File};
+use std::fs::{self, read_to_string, remove_file, File};
 use std::io::Write;
 use std::path::Path;
 use std::path::MAIN_SEPARATOR_STR;
@@ -172,8 +172,8 @@ fn get_log() -> String {
     let d = format!("{}..HEAD", get_last_tag());
     assert!(Command::new("git")
         .arg("log")
+        .arg("--format=fuller")
         .arg(d.as_str())
-        .arg("--oneline")
         .stdout(log)
         .current_dir(".")
         .spawn()
@@ -219,7 +219,7 @@ fn create_changelog() {
             }
         }
     }
-    fs::remove_file("log").expect("msg");
+    remove_file("log").expect("failed to remove log");
     diff();
     prepare_commit();
     send();
