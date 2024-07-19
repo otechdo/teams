@@ -391,16 +391,50 @@ fn commit_types_with_help() -> [&'static str; 68] {
     x
 }
 
-fn prepare_commit() {
-    let t = Select::new("Select a commit type : ", commit_types_with_help().to_vec())
-        .prompt()
-        .unwrap();
-    let s = Text::new("Please enter the commit scope : ")
-        .prompt()
-        .unwrap();
-    if s.is_empty() {
-        prepare_commit();
+fn commit_scope() -> String {
+    let mut scope: String;
+    loop {
+        scope = Text::new("Please enter the commit scope : ")
+            .prompt()
+            .unwrap();
+        if scope.is_empty() {
+            continue;
+        }
+        if scope.len().gt(&20) {
+            println!("scope can be superior to 20 character");
+            continue;
+        }
+        if confirm(
+            format!("Really use the commit scope : {scope}").as_str(),
+            false,
+        ) {
+            break;
+        }
     }
+    scope
+}
+
+fn commit_types() -> String {
+    let mut t: String;
+    loop {
+        t = Select::new(
+            "Please enter the commit type : ",
+            commit_types_with_help().to_vec(),
+        )
+        .prompt()
+        .unwrap()
+        .to_string();
+        if t.is_empty() {
+            continue;
+        }
+        if confirm(format!("Really use the commit type : {t}").as_str(), false) {
+            break;
+        }
+    }
+    t
+}
+
+fn commit_summary() -> String {
     let mut summary: String;
     loop {
         summary = Text::new("Please enter the commit summary : ")
@@ -413,20 +447,32 @@ fn prepare_commit() {
             println!("Summary must be contains less than 50 chararacter");
             continue;
         }
-        break;
+        if confirm(format!("Use the summary : {summary}").as_str(), false) {
+            break;
+        }
     }
+    summary
+}
 
-    let mut description: String;
+fn commit_description() -> String {
+    let mut description: String = String::new();
     loop {
-        description = Text::new("Please enter the commit description : ")
+        let d = Text::new("Please enter the commit description : ")
             .prompt()
             .unwrap();
-        if description.is_empty() {
+        if d.is_empty() {
+            continue;
+        }
+        description.push_str(format!("{d}\n\n").as_str());
+        if confirm("Add a new description line", false) {
             continue;
         }
         break;
     }
+    description
+}
 
+fn commit_why() -> String {
     let mut why: String = String::new();
     loop {
         let w = Text::new("Please explain the reasoning behind the change : ")
@@ -436,34 +482,88 @@ fn prepare_commit() {
             continue;
         }
         if w.len().gt(&50) {
-            println!("the reasoning behind the change must be contains less than 50 chararacter");
+            println!("The reasoning behind the change must be contains less than 50 chararacter");
             continue;
         }
         why.push_str(format!("\n\t* {w}").as_str());
-        if confirm("Continue to write the changes : ", true) {
+        if confirm("Continue to write the changes : ", false) {
             continue;
         }
         break;
     }
+    why
+}
+fn commit_footer() -> String {
     let mut footer: String = String::new();
-    loop {
-        let f = Text::new("Please enter the commit footer : ")
-            .prompt()
-            .unwrap();
-        if f.is_empty() {
-            continue;
+    if confirm("Code has breaking changes ?", false) {
+        footer.push_str("BREAKING CHANGE: ");
+        loop {
+            let b = Text::new("Please enter the breaking change description: ")
+                .prompt()
+                .unwrap();
+            if b.is_empty() {
+                continue;
+            }
+            if confirm(
+                format!("Use breaking change description : {b}").as_str(),
+                false,
+            ) {
+                footer.push_str(b.as_str());
+                break;
+            }
         }
-        footer.push_str(format!("\n{f}").as_str());
-        if confirm("Continue to write the footer : ", true) {
-            continue;
-        }
-        break;
     }
-    let x: Vec<&str> = t.split(':').collect();
+    if confirm("Code has resolving issues ?", false) {
+        loop {
+            footer.push_str("Fixes ");
+            let f = Text::new("Please enter the issue number : ")
+                .prompt()
+                .unwrap();
+            if f.is_empty() {
+                continue;
+            }
+            let mut fix = f.replace('#', "");
+            fix.push_str(format!("#{fix}\n").as_str());
+            footer.push_str(fix.as_str());
+            if confirm("Code resolving an other issues ?", false) {
+                continue;
+            }
+            break;
+        }
+    }
+    if confirm("Code resolve an issue ?", false) {
+        loop {
+            footer.push_str("Closes ");
+            let f = Text::new("Please enter the issue number : ")
+                .prompt()
+                .unwrap();
+            if f.is_empty() {
+                continue;
+            }
+            loop {
+                let mut fix = f.replace('#', "");
+                fix.push_str(format!("#{fix}\n").as_str());
+                footer.push_str(fix.as_str());
+                if confirm("Code resolve an other issue ?", false) {
+                    continue;
+                }
+                break;
+            }
+        }
+    }
+    footer
+}
+fn prepare_commit() {
     let c = format!(
-        "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n\t{why}\n{footer}\n",
-        x.first().unwrap(),
-        summary.to_lowercase().replace('.', "")
+        "{}({}): {}\n\n{}\n\nThe following changes were made:\n\t{}\n\nThe changes were made:\n\t{}\n\nCo-authored-by: {} <{}>",
+        commit_types(),
+        commit_scope(),
+        commit_summary(),
+        commit_description(),
+        commit_why(),
+        commit_footer(),
+        name(),
+        email()
     );
     commit(c.as_str());
 }
@@ -488,6 +588,33 @@ fn publish() {
     }
 }
 
+fn email() -> String {
+    String::from_utf8(
+        Command::new("git")
+            .arg("config")
+            .arg("--get")
+            .arg("user.email")
+            .current_dir(".")
+            .output()
+            .expect("git email not found")
+            .stdout,
+    )
+    .expect("msg")
+}
+
+fn name() -> String {
+    String::from_utf8(
+        Command::new("git")
+            .arg("config")
+            .arg("--get")
+            .arg("user.name")
+            .current_dir(".")
+            .output()
+            .expect("username not found")
+            .stdout,
+    )
+    .expect("msg")
+}
 fn send() {
     if confirm("Send to remotes ?", true) {
         assert!(Command::new("git")
