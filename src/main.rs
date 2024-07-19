@@ -439,7 +439,7 @@ fn prepare_commit() {
             println!("the reasoning behind the change must be contains less than 50 chararacter");
             continue;
         }
-        why.push_str(format!("\n* {w}").as_str());
+        why.push_str(format!("\n\t* {w}").as_str());
         if confirm("Continue to write the changes : ", true) {
             continue;
         }
@@ -461,7 +461,7 @@ fn prepare_commit() {
     }
     let x: Vec<&str> = t.split(':').collect();
     let c = format!(
-        "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n{why}\n{footer}\n",
+        "{}({s}): {}\n\n{description}\n\nThe following changes were made:\n\t{why}\n{footer}\n",
         x.first().unwrap(),
         summary.to_lowercase().replace('.', "")
     );

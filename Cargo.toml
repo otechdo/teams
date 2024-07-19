@@ -1,6 +1,6 @@
 [package]
 name = "commiter"
-version = "2.2.2"
+version = "2.3.0"
 edition = "2021"
 license-file = "LICENSE"
 authors = ["Willy Micieli"]
