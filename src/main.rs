@@ -197,14 +197,14 @@ fn create_changelog() {
     let lines = logs.lines();
     let mut f = File::create(filename.as_str()).expect("failed to create file");
     writeln!(f, "# {}\n\n> {}\n", project(), description()).expect("msg");
-    writeln!(f, "## Authors\n").expect("msg");
+    writeln!(f, "- Authors\n").expect("msg");
     for author in authors() {
-        writeln!(f, "- {author}").expect("msg");
+        writeln!(f, "  - {author}").expect("msg");
     }
     for t in commit_types_with_help() {
         let ttt: Vec<&str> = t.split(':').collect();
-        let title = (*ttt.last().unwrap()).to_string();
-        writeln!(f, "\n###{title}").expect("msg");
+        let title: String = (*ttt.last().unwrap()).to_string();
+        writeln!(f, "\n-{title}").expect("msg");
         for line in lines.clone() {
             let current = (*ttt.first().unwrap()).to_string();
             if line.contains(current.as_str()) {
@@ -214,7 +214,7 @@ fn create_changelog() {
                     let cc: Vec<&str> = c.split(':').collect();
                     let ccc: Vec<&str> = cc.last().unwrap().split('\n').collect();
                     let message = ccc.join("\n");
-                    writeln!(f, "\n-{message}").expect("msg");
+                    writeln!(f, "\n  -{message}").expect("msg");
                 }
             }
         }

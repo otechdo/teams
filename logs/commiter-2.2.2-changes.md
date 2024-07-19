@@ -2,182 +2,184 @@
 
 > A rust program to ensure the quality of commit
 
-## Authors
+- Authors
 
-- Willy Micieli
+  - Willy Micieli
 
-### Immediate goals, but is necessary for long-term progress
+- Immediate goals, but is necessary for long-term progress
 
-### Code cleanup and maintenance
+- Code cleanup and maintenance
 
-### Initial commit or major feature start
+- Initial commit or major feature start
 
-- change commit message format
+  - change commit message format
 
-- add commiter rank
+  - add commiter rank
 
-- can generate change log
+  - can generate change log
 
-### Reduction of codebase size or removal of features
+- Reduction of codebase size or removal of features
 
-### Merging features or components
+- Merging features or components
 
-### Removing large chunks of code or features
+- Removing large chunks of code or features
 
-- remove unseless callback
+  - remove unseless callback
 
-### Undeveloped feature with potential
+- Undeveloped feature with potential
 
-### Bug fix or error resolution
+- Bug fix or error resolution
 
-- fix footer indentation output
+  - fix empty summary in changelog
 
-- separate summary and description
+  - fix footer indentation output
 
-- fix commit message format
+  - separate summary and description
 
-- fix duplicate first contact type
+  - fix commit message format
 
-### Initial implementation of a feature
+  - fix duplicate first contact type
 
-### Connecting code parts
+- Initial implementation of a feature
 
-### Fixing unknown or mysterious bugs
+- Connecting code parts
 
-### Minor updates or fixes
+- Fixing unknown or mysterious bugs
 
-### Comprehensive optimization of a specific area
+- Minor updates or fixes
 
-### Scaling up the system or increasing capacity
+- Comprehensive optimization of a specific area
 
-### Initial integrations with external systems
+- Scaling up the system or increasing capacity
 
-### Long-term project for a self -sustaining system
+- Initial integrations with external systems
 
-### Collection of related changes
+- Long-term project for a self -sustaining system
 
-### Altering data or information flow
+- Collection of related changes
 
-### Slowing down or reducing code performance
+- Altering data or information flow
 
-### Resolving merge conflicts or dependencies
+- Slowing down or reducing code performance
 
-### Removing technical debt
+- Resolving merge conflicts or dependencies
 
-### Improving documentation or communication
+- Removing technical debt
 
-### Migration to a new architecture or language
+- Improving documentation or communication
 
-### Stabilizing or balancing code parts
+- Migration to a new architecture or language
 
-### Deploying to production or releasing a version
+- Stabilizing or balancing code parts
 
-### Significant performance improvements
+- Deploying to production or releasing a version
 
-### Temporarily disabling a feature
+- Significant performance improvements
 
-### Minor, temporary change
+- Temporarily disabling a feature
 
-- add changelog link for release 222
+- Minor, temporary change
 
-### Series of small changes or fixes
+  - add changelog link for release 222
 
-### Project management changes
+- Series of small changes or fixes
 
-### Represents project management-related changes
+- Project management changes
 
-### Celebrates the completion of major milestones
+- Represents project management-related changes
 
-### Major milestone or goal completion
+- Celebrates the completion of major milestones
 
-### Code refactoring
+- Major milestone or goal completion
 
-- rewrite readme
+- Code refactoring
 
-- change add command question
+  - rewrite readme
 
-### Optimizing code for performance
+  - change add command question
 
-- run commit after generate change log
+- Optimizing code for performance
 
-- auto update change log after all commits
+  - run commit after generate change log
 
-### Changing project direction
+  - auto update change log after all commits
 
-### Brings the project closer to its goals or objectives
+- Changing project direction
 
-### Removal or deprecation of a component
+- Brings the project closer to its goals or objectives
 
-### Performance improvement
+- Removal or deprecation of a component
 
-### Establishing close relationships between code parts
+- Performance improvement
 
-### Small, random change
+- Establishing close relationships between code parts
 
-### Experimental or speculative change
+- Small, random change
 
-### Documentation or clarity improvement
+- Experimental or speculative change
 
-- update reamde documentation
+- Documentation or clarity improvement
 
-- update change log
+  - update reamde documentation
 
-- update changes log
+  - update change log
 
-- add generation change log comand
+  - update changes log
 
-- update change log
+  - add generation change log comand
 
-### Expanding a feature or functionality
+  - update change log
 
-### Changes related to time, dates, or timestamps
+- Expanding a feature or functionality
 
-### Deploying to production
+- Changes related to time, dates, or timestamps
 
-### Independent change
+- Deploying to production
 
-### Exploration of new technologies or approaches
+- Independent change
 
-### Resolution of a complex or hard-to-reproduce issue
+- Exploration of new technologies or approaches
 
-### Temporarily masking functionality
+- Resolution of a complex or hard-to-reproduce issue
 
-### Testing-related changes
+- Temporarily masking functionality
 
-### Rapid, impactful changes
+- Testing-related changes
 
-### Refactoring code structure
+- Rapid, impactful changes
 
-### Making codebase more accessible
+- Refactoring code structure
 
-### Testing new features or technologies
+- Making codebase more accessible
 
-### Changes to date, time, or scheduling
+- Testing new features or technologies
 
-### Urgent hotfixes
+- Changes to date, time, or scheduling
 
-### Urgent production hotfixes
+- Urgent hotfixes
 
-### New feature or enhancement
+- Urgent production hotfixes
 
-- run commit after generate change log
+- New feature or enhancement
 
-- auto update change log after all commits
+  - run commit after generate change log
 
-### Creating or improving environments
+  - auto update change log after all commits
 
-### Creation of new components
+- Creating or improving environments
 
-### Major, transformative change
+- Creation of new components
 
-### Infrastructure changes
+- Major, transformative change
 
-### Improving code performance
+- Infrastructure changes
 
-### Removal of a module, component, or feature
+- Improving code performance
 
-### Significant speed improvement
+- Removal of a module, component, or feature
 
-### Improving code comments or documentation
+- Significant speed improvement
 
-### Merging branches or connecting code parts
+- Improving code comments or documentation
+
+- Merging branches or connecting code parts
