@@ -13,6 +13,7 @@ use std::process::Command;
 const DEV_BRANCH: &str = "develop";
 const FEATURE_BRANCH_PREFIX: &str = "feature";
 
+const LANG: &str = "en_US";
 const HELP: [&str; 68] = [
     "Star: New feature or enhancement",
     "Comet: Bug fix or error resolution",
@@ -84,6 +85,19 @@ const HELP: [&str; 68] = [
     "Big Crunch: Reduction of codebase size or removal of features",
 ];
 
+fn check(sentence: &str) -> bool {
+    let mut f = File::create("/tmp/commiter").expect("msg");
+    writeln!(f, "{sentence}").expect("msg");
+    let o = Command::new("hunspell")
+        .arg("-d")
+        .arg(LANG)
+        .arg("-l")
+        .arg("/tmp/commiter")
+        .output()
+        .expect("msg")
+        .stdout;
+    o.is_empty()
+}
 fn get_last_tag() -> String {
     let tag: String = String::from_utf8(
         Command::new("git")
@@ -551,15 +565,73 @@ fn commit_footer() -> String {
     }
     footer
 }
+
+fn bad_sentences() {
+    println!("The entered text is not correct: it must be written in English and not contain any errors.");
+}
+fn get_scope() -> String {
+    let mut scope: String;
+    loop {
+        scope = commit_scope();
+        if check(scope.as_str()) {
+            break;
+        }
+        bad_sentences();
+    }
+    scope
+}
+
+fn get_summary() -> String {
+    let mut summary: String;
+    loop {
+        summary = commit_summary();
+        if check(summary.as_str()) {
+            break;
+        }
+    }
+    summary
+}
+
+fn get_description() -> String {
+    let mut description: String;
+    loop {
+        description = commit_description();
+        if check(description.as_str()) {
+            break;
+        }
+    }
+    description
+}
+
+fn get_why() -> String {
+    let mut why: String;
+    loop {
+        why = commit_why();
+        if check(why.as_str()) {
+            break;
+        }
+    }
+    why
+}
+fn get_footer() -> String {
+    let mut footer: String;
+    loop {
+        footer = commit_footer();
+        if check(footer.as_str()) {
+            break;
+        }
+    }
+    footer
+}
 fn prepare_commit() {
     let c = format!(
         "{}({}): {}\n\n{}\n\nThe following changes were made:\n\t{}\n\nThe changes :\n{}\n\nCo-authored-by: {} <{}>",
         commit_types(),
-        commit_scope(),
-        commit_summary(),
-        commit_description(),
-        commit_why(),
-        commit_footer(),
+        get_scope(),
+        get_summary(),
+        get_description(),
+        get_why(),
+        get_footer(),
         name(),
         email()
     );
