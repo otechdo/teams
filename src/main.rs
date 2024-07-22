@@ -701,50 +701,43 @@ enum Verb {
 }
 
 fn exist(d: &str) -> bool {
-    Path::new(d).is_dir()
-}
-
-fn cmd(p: &str, args: &[&str]) -> bool {
-    Command::new(p)
-        .args(args)
-        .current_dir(".")
-        .spawn()
-        .expect("failed to run command")
-        .wait()
-        .expect("")
-        .success()
-}
-fn is_git() -> bool {
-    exist(".git")
-}
-fn is_mercurial() -> bool {
-    exist(".hg")
+    Path::new(d).exists()
 }
 
 fn checkout(b: &str) -> bool {
-    if is_git() {
-        return cmd("git", &["checkout", b]);
-    } else if is_mercurial() {
-        return cmd("hg", &["update", b]);
-    }
-    false
+    Command::new("git")
+        .arg("checkout")
+        .arg(b)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 fn create_branch(b: &str) -> bool {
-    if is_git() {
-        return cmd("git", &["branch", b]);
-    } else if is_mercurial() {
-        return cmd("hg", &["branch", b]);
-    }
-    false
+    Command::new("git")
+        .arg("branch")
+        .arg(b)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 fn remove_branch(b: &str) -> bool {
-    if is_git() {
-        return cmd("git", &["branch", "-d", b]);
-    } else if is_mercurial() {
-        return cmd("hg", &["branch", "-d", b]);
-    }
-    false
+    Command::new("git")
+        .arg("branch")
+        .arg("-d")
+        .arg(b)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 fn init() -> bool {
@@ -752,30 +745,28 @@ fn init() -> bool {
 }
 
 fn merge(branch: &str) -> bool {
-    if is_git() {
-        cmd("git", &["merge", branch])
-    } else if is_mercurial() {
-        cmd("hg", &["merge", branch])
-    } else {
-        false
-    }
+    Command::new("git")
+        .arg("merge")
+        .arg(branch)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 fn start_feature(name: &str) -> bool {
-    if is_git() {
-        cmd(
-            "git",
-            &[
-                "checkout",
-                "-b",
-                format!("{FEATURE_BRANCH_PREFIX}/{name}").as_str(),
-                DEV_BRANCH,
-            ],
-        )
-    } else if is_mercurial() {
-        cmd("hg", &[""])
-    } else {
-        false
-    }
+    Command::new("git")
+        .arg("checkout")
+        .arg("-b")
+        .arg(format!("{FEATURE_BRANCH_PREFIX}/{name}").as_str())
+        .arg(DEV_BRANCH)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 fn finish_feature(name: &str) -> bool {
     assert!(checkout(DEV_BRANCH));
@@ -807,32 +798,49 @@ fn feature(name: &str, v: &Verb) -> bool {
 }
 
 fn pull(branch: &str) -> bool {
-    if is_git() {
-        cmd("git", &["pull", branch])
-    } else if is_mercurial() {
-        cmd("hg", &["pull", branch])
-    } else {
-        false
-    }
+    Command::new("git")
+        .arg("pull")
+        .arg("origin")
+        .arg(branch)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 fn send() -> bool {
-    if is_git() {
-        cmd("git ", &["push", "--all"]) && cmd("git ", &["push", "--tags"])
-    } else if is_mercurial() {
-        cmd("hg", &["push"])
-    } else {
-        false
-    }
+    Command::new("git")
+        .arg("push")
+        .arg("origin")
+        .arg("--all")
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+        && Command::new("git")
+            .arg("push")
+            .arg("origin")
+            .arg("--tags")
+            .current_dir(".")
+            .spawn()
+            .expect("git")
+            .wait()
+            .unwrap()
+            .success()
 }
 fn status() -> bool {
-    if is_git() {
-        cmd("git", &["status"])
-    } else if is_mercurial() {
-        cmd("hg", &["status"])
-    } else {
-        false
-    }
+    Command::new("git")
+        .arg("status")
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 fn flow(zuu: bool) -> i32 {
@@ -849,7 +857,6 @@ fn flow(zuu: bool) -> i32 {
                     "Send modidifications",
                     "Show status",
                     "Show diff",
-                    "Send",
                     "Quit",
                 ],
             )
@@ -898,9 +905,9 @@ struct Commiter {
     rank: Option<bool>,
 }
 fn main() {
+    let commiter: Commiter = argh::from_env();
     if zuu() {
-        if exist(".git") || exist(".hg") {
-            let commiter: Commiter = argh::from_env();
+        if exist(".git") {
             if commiter.generate_change_log.is_some() {
                 create_changelog();
             } else if commiter.rank.is_some() {
