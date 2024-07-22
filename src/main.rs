@@ -8,7 +8,7 @@ use std::fs::{self, read_to_string, remove_file, File};
 use std::io::Write;
 use std::path::Path;
 use std::path::MAIN_SEPARATOR_STR;
-use std::process::Command;
+use std::process::{exit, Command};
 
 const DEV_BRANCH: &str = "develop";
 const FEATURE_BRANCH_PREFIX: &str = "feature";
@@ -830,7 +830,7 @@ fn status() -> bool {
     }
 }
 
-fn flow(zuu: bool) {
+fn flow(zuu: bool) -> i32 {
     loop {
         if zuu {
             let o: &str = Select::new(
@@ -878,6 +878,7 @@ fn flow(zuu: bool) {
         }
     }
     println!("Bye...");
+    0
 }
 
 #[derive(FromArgs)]
@@ -891,29 +892,37 @@ struct Commiter {
     flow: Option<bool>,
 }
 fn main() {
-    let commiter: Commiter = argh::from_env();
-
-    if commiter.generate_change_log.is_some() {
-        create_changelog();
-    } else if commiter.rank.is_some() {
-        assert!(Command::new("git")
-            .arg("rank")
-            .current_dir(".")
-            .spawn()
-            .expect("missing alias")
-            .wait()
-            .unwrap()
-            .success());
-    } else if commiter.flow.is_some() {
-        flow(zuu());
-    } else if Path::new(".git").exists() && zuu() {
-        diff();
-        prepare_commit();
-        assert!(send());
-        if Path::new("Cargo.toml").exists() {
-            publish();
+    if zuu() {
+        if exist(".git") || exist(".hg") {
+            let commiter: Commiter = argh::from_env();
+            if commiter.generate_change_log.is_some() {
+                create_changelog();
+            } else if commiter.rank.is_some() {
+                assert!(Command::new("git")
+                    .arg("rank")
+                    .current_dir(".")
+                    .spawn()
+                    .expect("missing alias")
+                    .wait()
+                    .unwrap()
+                    .success());
+            } else if commiter.flow.is_some() {
+                exit(flow(true));
+            } else if Path::new(".git").exists() && zuu() {
+                diff();
+                prepare_commit();
+                if exist(".git") || exist(".hg") {
+                    assert!(send());
+                }
+                if exist("Cargo.toml") {
+                    publish();
+                }
+            } else {
+                exit(flow(true));
+            }
+        } else {
+            println!("Repository not initialized !");
+            exit(1);
         }
-    } else {
-        flow(zuu());
     }
 }
