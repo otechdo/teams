@@ -193,7 +193,7 @@ fn create_changelog() {
     .expect("msg");
     remove_file("log").expect("failed to remove log");
     remove_file("rank").expect("failed to remove log");
-    diff();
+    assert!(diff());
     prepare_commit();
     assert!(send());
     if Path::new("Cargo.toml").exists() {
@@ -286,7 +286,7 @@ fn commit(m: &str) {
     }
 }
 
-fn diff() {
+fn diff() -> bool {
     loop {
         clear();
         assert!(Command::new("git")
@@ -318,6 +318,7 @@ fn diff() {
             break;
         }
     }
+    true
 }
 
 fn fmt() {
@@ -588,6 +589,7 @@ fn get_summary() -> String {
         if check(summary.as_str()) {
             break;
         }
+        bad_sentences();
     }
     summary
 }
@@ -599,6 +601,7 @@ fn get_description() -> String {
         if check(description.as_str()) {
             break;
         }
+        bad_sentences();
     }
     description
 }
@@ -610,6 +613,7 @@ fn get_why() -> String {
         if check(why.as_str()) {
             break;
         }
+        bad_sentences();
     }
     why
 }
@@ -620,6 +624,7 @@ fn get_footer() -> String {
         if check(footer.as_str()) {
             break;
         }
+        bad_sentences();
     }
     footer
 }
@@ -762,7 +767,7 @@ fn start_feature(name: &str) -> bool {
             &[
                 "checkout",
                 "-b",
-                format!("feature/{name}").as_str(),
+                format!("{FEATURE_BRANCH_PREFIX}/{name}").as_str(),
                 DEV_BRANCH,
             ],
         )
@@ -843,6 +848,7 @@ fn flow(zuu: bool) -> i32 {
                     "Generate change log",
                     "Send modidifications",
                     "Show status",
+                    "Show diff",
                     "Quit",
                 ],
             )
@@ -855,7 +861,7 @@ fn flow(zuu: bool) -> i32 {
             } else if o.starts_with("Finish") && o.contains("feature") {
                 feature(&ask("Feature name : "), &Verb::Finish)
             } else if o.starts_with("Commit") {
-                diff();
+                assert!(diff());
                 prepare_commit();
                 assert!(send());
                 if Path::new("Cargo.toml").exists() {
@@ -869,6 +875,8 @@ fn flow(zuu: bool) -> i32 {
                 send()
             } else if o.starts_with("Show") && o.contains("status") {
                 status()
+            } else if o.starts_with("Show") && o.contains("diff") {
+                diff()
             } else if o.starts_with("Quit") {
                 break;
             } else {
@@ -908,8 +916,8 @@ fn main() {
                     .success());
             } else if commiter.flow.is_some() {
                 exit(flow(true));
-            } else if Path::new(".git").exists() && zuu() {
-                diff();
+            } else {
+                assert!(diff());
                 prepare_commit();
                 if exist(".git") || exist(".hg") {
                     assert!(send());
@@ -917,12 +925,12 @@ fn main() {
                 if exist("Cargo.toml") {
                     publish();
                 }
-            } else {
-                exit(flow(true));
             }
         } else {
             println!("Repository not initialized !");
             exit(1);
         }
     }
+    println!("Repository contains errors !");
+    exit(1);
 }
