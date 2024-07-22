@@ -849,6 +849,7 @@ fn flow(zuu: bool) -> i32 {
                     "Send modidifications",
                     "Show status",
                     "Show diff",
+                    "Send",
                     "Quit",
                 ],
             )
@@ -863,8 +864,7 @@ fn flow(zuu: bool) -> i32 {
             } else if o.starts_with("Commit") {
                 assert!(diff());
                 prepare_commit();
-                assert!(send());
-                if Path::new("Cargo.toml").exists() {
+                if exist("Cargo.toml") {
                     publish();
                 }
                 true
@@ -896,8 +896,6 @@ struct Commiter {
     generate_change_log: Option<bool>,
     #[argh(switch, description = "show commiter rank")]
     rank: Option<bool>,
-    #[argh(switch, description = "commiter in flow mode")]
-    flow: Option<bool>,
 }
 fn main() {
     if zuu() {
@@ -914,18 +912,8 @@ fn main() {
                     .wait()
                     .unwrap()
                     .success());
-            } else if commiter.flow.is_some() {
-                exit(flow(true));
-            } else {
-                assert!(diff());
-                prepare_commit();
-                if exist(".git") || exist(".hg") {
-                    assert!(send());
-                }
-                if exist("Cargo.toml") {
-                    publish();
-                }
             }
+            exit(flow(true));
         } else {
             println!("Repository not initialized !");
             exit(1);
