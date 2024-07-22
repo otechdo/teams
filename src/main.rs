@@ -193,12 +193,6 @@ fn create_changelog() {
     .expect("msg");
     remove_file("log").expect("failed to remove log");
     remove_file("rank").expect("failed to remove log");
-    assert!(diff());
-    prepare_commit();
-    assert!(send());
-    if Path::new("Cargo.toml").exists() {
-        publish();
-    }
 }
 
 fn create_patch() {
@@ -287,38 +281,14 @@ fn commit(m: &str) {
 }
 
 fn diff() -> bool {
-    loop {
-        clear();
-        assert!(Command::new("git")
-            .arg("diff")
-            .current_dir(".")
-            .spawn()
-            .unwrap()
-            .wait()
-            .unwrap()
-            .success());
-        assert!(Command::new("git")
-            .arg("status")
-            .current_dir(".")
-            .spawn()
-            .unwrap()
-            .wait()
-            .unwrap()
-            .success());
-        if confirm("Add modifications ?", false) {
-            assert!(Command::new("git")
-                .arg("add")
-                .arg(".")
-                .current_dir(".")
-                .spawn()
-                .unwrap()
-                .wait()
-                .unwrap()
-                .success());
-            break;
-        }
-    }
-    true
+    Command::new("git")
+        .arg("diff")
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 fn fmt() {
@@ -335,6 +305,7 @@ fn fmt() {
 
 fn zuu() -> bool {
     clear();
+
     if Path::new("Cargo.toml").exists() {
         fmt();
         if Command::new("zuu")
@@ -700,10 +671,6 @@ enum Verb {
     Finish,
 }
 
-fn exist(d: &str) -> bool {
-    Path::new(d).exists()
-}
-
 fn checkout(b: &str) -> bool {
     Command::new("git")
         .arg("checkout")
@@ -732,6 +699,18 @@ fn remove_branch(b: &str) -> bool {
         .arg("branch")
         .arg("-d")
         .arg(b)
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn add() -> bool {
+    Command::new("git")
+        .arg("add")
+        .arg(".")
         .current_dir(".")
         .spawn()
         .expect("git")
@@ -845,51 +824,59 @@ fn status() -> bool {
 
 fn flow(zuu: bool) -> i32 {
     loop {
-        if zuu {
-            let o: &str = Select::new(
-                "What you want do :  ",
-                vec![
-                    "Init a repository",
-                    "Start a new feature",
-                    "Finish a feature",
-                    "Commit",
-                    "Generate change log",
-                    "Send modidifications",
-                    "Show status",
-                    "Show diff",
-                    "Quit",
-                ],
-            )
-            .prompt()
-            .unwrap();
-            let x: bool = if o.starts_with("Init") {
-                init()
-            } else if o.starts_with("Start") && o.contains("feature") {
-                feature(&ask("Feature name : "), &Verb::Start)
-            } else if o.starts_with("Finish") && o.contains("feature") {
-                feature(&ask("Feature name : "), &Verb::Finish)
-            } else if o.starts_with("Commit") {
-                assert!(diff());
-                prepare_commit();
-                if exist("Cargo.toml") {
-                    publish();
-                }
-                true
-            } else if o.starts_with("Generate") && o.contains("change log") {
-                create_changelog();
-                true
-            } else if o.starts_with("Send") {
-                send()
-            } else if o.starts_with("Show") && o.contains("status") {
-                status()
-            } else if o.starts_with("Show") && o.contains("diff") {
-                diff()
-            } else if o.starts_with("Quit") {
-                break;
-            } else {
-                false
-            };
-            assert!(x);
+        if confirm("Quit the program ? ", false).eq(&false) {
+            clear();
+            if zuu {
+                let o: &str = Select::new(
+                    "What you want do :  ",
+                    vec![
+                        "Init a repository",
+                        "Start a new feature",
+                        "Finish a feature",
+                        "Commit",
+                        "Generate change log",
+                        "Send modifications",
+                        "Show status",
+                        "Show diff",
+                        "Add modifications",
+                        "Quit",
+                    ],
+                )
+                .prompt()
+                .unwrap();
+                let x: bool = if o.starts_with("Init") {
+                    init()
+                } else if o.starts_with("Start") && o.contains("feature") {
+                    feature(&ask("Feature name : "), &Verb::Start)
+                } else if o.starts_with("Finish") && o.contains("feature") {
+                    feature(&ask("Feature name : "), &Verb::Finish)
+                } else if o.starts_with("Commit") {
+                    assert!(diff());
+                    prepare_commit();
+                    if Path::new("Cargo.toml").exists() {
+                        publish();
+                    }
+                    true
+                } else if o.starts_with("Generate") && o.contains("change log") {
+                    create_changelog();
+                    true
+                } else if o.starts_with("Send") {
+                    send()
+                } else if o.starts_with("Show") && o.contains("status") {
+                    status()
+                } else if o.starts_with("Show") && o.contains("diff") {
+                    diff()
+                } else if o.starts_with("Quit") {
+                    break;
+                } else if o.starts_with("Add") && o.contains("modifications") {
+                    add()
+                } else {
+                    false
+                };
+                assert!(x);
+            }
+        } else {
+            break;
         }
     }
     println!("Bye...");
@@ -907,7 +894,7 @@ struct Commiter {
 fn main() {
     let commiter: Commiter = argh::from_env();
     if zuu() {
-        if exist(".git") {
+        if Path::new(".git").exists() {
             if commiter.generate_change_log.is_some() {
                 create_changelog();
             } else if commiter.rank.is_some() {
