@@ -835,12 +835,12 @@ fn update() -> bool {
         .success()
 }
 
-fn remove_depedencies() -> bool {
+fn remove_dependencies() -> bool {
     let dependencies = MultiSelect::new("Select dependencies to remove : ", dependencies())
         .prompt()
         .unwrap();
     if dependencies.is_empty() {
-        return remove_depedencies();
+        return remove_dependencies();
     }
     for d in &dependencies {
         assert!(Command::new("cargo")
@@ -934,7 +934,7 @@ fn flow(zuu: bool) -> i32 {
                     "Show logs",
                     "Run tests",
                     "Run program",
-                    "Remove depedencies",
+                    "Remove dependencies",
                     "Publish",
                     "Install",
                     "Update dependencies",
@@ -969,7 +969,7 @@ fn flow(zuu: bool) -> i32 {
                 "Show logs" => assert!(logs()),
                 "Run tests" => assert!(test_application()),
                 "Run program" => assert!(run_program()),
-                "Remove depedencies" => assert!(remove_depedencies()),
+                "Remove dependencies" => assert!(remove_dependencies()),
                 "Publish" => assert!(publish()),
                 "Install" => assert!(install_program()),
                 "Stash all modifications" => assert!(stash()),
