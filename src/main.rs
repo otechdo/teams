@@ -741,7 +741,7 @@ fn pull(branch: &str) -> bool {
 
 fn send() -> bool {
     if is_git() {
-        cmd("git", &["pull"]) && cmd("git ", &["push", "--all"]) && cmd("git ", &["push", "--tags"])
+        cmd("git ", &["push", "--all"]) && cmd("git ", &["push", "--tags"])
     } else if is_mercurial() {
         cmd("hg", &["push"])
     } else {
