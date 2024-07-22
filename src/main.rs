@@ -2,7 +2,7 @@
 
 use argh::FromArgs;
 use cargo_metadata::MetadataCommand;
-use inquire::{Confirm, Select, Text};
+use inquire::{Confirm, MultiSelect, Select, Text};
 use std::env::consts::OS;
 use std::fs::{self, read_to_string, remove_file, File};
 use std::io::Write;
@@ -147,7 +147,7 @@ fn get_rank() -> String {
         .to_string()
 }
 
-fn create_changelog() {
+fn create_changelog() -> bool {
     if Path::new("./logs").is_dir().eq(&false) {
         fs::create_dir_all("./logs").expect("msg");
     }
@@ -193,6 +193,7 @@ fn create_changelog() {
     .expect("msg");
     remove_file("log").expect("failed to remove log");
     remove_file("rank").expect("failed to remove log");
+    Path::new(filename.as_str()).exists()
 }
 
 fn create_patch() {
@@ -262,7 +263,7 @@ fn send_tag() {
         .unwrap()
         .success());
 }
-fn commit(m: &str) {
+fn commit(m: &str) -> bool {
     assert!(Command::new("git")
         .arg("commit")
         .arg("-m")
@@ -278,6 +279,7 @@ fn commit(m: &str) {
         create_tag();
         send_tag();
     }
+    true
 }
 
 fn diff() -> bool {
@@ -329,6 +331,17 @@ fn version() -> String {
     let metadata = MetadataCommand::new().no_deps().exec().unwrap();
     let package = metadata.packages.first().unwrap();
     package.version.to_string()
+}
+
+fn dependencies() -> Vec<String> {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    let dependency_names: Vec<String> = package
+        .dependencies
+        .iter()
+        .map(|dep| dep.name.clone())
+        .collect();
+    dependency_names
 }
 
 fn project() -> String {
@@ -599,7 +612,7 @@ fn get_footer() -> String {
     }
     footer
 }
-fn prepare_commit() {
+fn prepare_commit() -> bool {
     let c = format!(
         "{}({}): {}\n\n{}\n\nThe following changes were made:\n\t{}\n\nThe changes :\n{}\n\nCo-authored-by: {} <{}>",
         commit_types(),
@@ -611,7 +624,7 @@ fn prepare_commit() {
         name(),
         email()
     );
-    commit(c.as_str());
+    commit(c.as_str())
 }
 
 fn confirm(msg: &str, default: bool) -> bool {
@@ -620,18 +633,6 @@ fn confirm(msg: &str, default: bool) -> bool {
         .prompt()
         .unwrap()
         .eq(&true)
-}
-fn publish() {
-    if confirm("Publish ?", false) {
-        assert!(Command::new("cargo")
-            .arg("publish")
-            .current_dir(".")
-            .spawn()
-            .unwrap()
-            .wait()
-            .unwrap()
-            .success());
-    }
 }
 
 fn email() -> String {
@@ -788,6 +789,98 @@ fn pull(branch: &str) -> bool {
         .unwrap()
         .success()
 }
+fn stash() -> bool {
+    Command::new("git")
+        .arg("stash")
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn install_program() -> bool {
+    Command::new("cargo")
+        .arg("install")
+        .arg("--path")
+        .arg(".")
+        .current_dir(".")
+        .spawn()
+        .expect("cargo")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn run_program() -> bool {
+    Command::new("cargo")
+        .arg("run")
+        .current_dir(".")
+        .spawn()
+        .expect("cargo")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn update() -> bool {
+    Command::new("cargo")
+        .arg("update")
+        .current_dir(".")
+        .spawn()
+        .expect("cargo")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn remove_depedencies() -> bool {
+    let dependencies = MultiSelect::new("Select dependencies to remove : ", dependencies())
+        .prompt()
+        .unwrap();
+    if dependencies.is_empty() {
+        return remove_depedencies();
+    }
+    for d in &dependencies {
+        assert!(Command::new("cargo")
+            .arg("rm")
+            .arg(d.as_str())
+            .current_dir(".")
+            .spawn()
+            .expect("cargo")
+            .wait()
+            .unwrap()
+            .success());
+    }
+    true
+}
+
+fn test_application() -> bool {
+    Command::new("cargo")
+        .arg("test")
+        .arg("-j")
+        .arg("4")
+        .arg("--")
+        .arg("--show-output")
+        .current_dir(".")
+        .spawn()
+        .expect("cargo")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn publish() -> bool {
+    Command::new("cargo")
+        .arg("publish")
+        .current_dir(".")
+        .spawn()
+        .expect("cargo")
+        .wait()
+        .unwrap()
+        .success()
+}
 
 fn send() -> bool {
     Command::new("git")
@@ -824,63 +917,141 @@ fn status() -> bool {
 
 fn flow(zuu: bool) -> i32 {
     loop {
-        if confirm("Quit the program ? ", false).eq(&false) {
-            clear();
-            if zuu {
-                let o: &str = Select::new(
-                    "What you want do :  ",
-                    vec![
-                        "Init a repository",
-                        "Start a new feature",
-                        "Finish a feature",
-                        "Commit",
-                        "Generate change log",
-                        "Send modifications",
-                        "Show status",
-                        "Show diff",
-                        "Add modifications",
-                        "Quit",
-                    ],
-                )
-                .prompt()
-                .unwrap();
-                let x: bool = if o.starts_with("Init") {
-                    init()
-                } else if o.starts_with("Start") && o.contains("feature") {
-                    feature(&ask("Feature name : "), &Verb::Start)
-                } else if o.starts_with("Finish") && o.contains("feature") {
-                    feature(&ask("Feature name : "), &Verb::Finish)
-                } else if o.starts_with("Commit") {
-                    assert!(diff());
-                    prepare_commit();
-                    if Path::new("Cargo.toml").exists() {
-                        publish();
-                    }
-                    true
-                } else if o.starts_with("Generate") && o.contains("change log") {
-                    create_changelog();
-                    true
-                } else if o.starts_with("Send") {
-                    send()
-                } else if o.starts_with("Show") && o.contains("status") {
-                    status()
-                } else if o.starts_with("Show") && o.contains("diff") {
-                    diff()
-                } else if o.starts_with("Quit") {
-                    break;
-                } else if o.starts_with("Add") && o.contains("modifications") {
-                    add()
-                } else {
-                    false
-                };
-                assert!(x);
+        clear();
+        if zuu {
+            let o: &str = Select::new(
+                "What you want do :  ",
+                vec![
+                    "Init a repository",
+                    "Start a new feature",
+                    "Finish a feature",
+                    "Commit",
+                    "Generate change log",
+                    "Send modifications",
+                    "Show status",
+                    "Show branches",
+                    "Show diff",
+                    "Show logs",
+                    "Run tests",
+                    "Run program",
+                    "Remove depedencies",
+                    "Publish",
+                    "Install",
+                    "Update dependencies",
+                    "Stash all modifications",
+                    "Delete a branch",
+                    "Delete a tag",
+                    "Create a new branch with no staged modifications",
+                    "Show tags",
+                    "Add modifications",
+                    "Quit",
+                ],
+            )
+            .prompt()
+            .unwrap();
+            match o {
+                "Init a repository" => assert!(init()),
+
+                "Start a new feature" => assert!(feature(
+                    ask("Enter the feature name").as_str(),
+                    &Verb::Start
+                )),
+                "Finish a feature" => assert!(feature(
+                    ask("Enter the feature name").as_str(),
+                    &Verb::Finish
+                )),
+                "Commit" => assert!(prepare_commit()),
+                "Generate change log" => assert!(create_changelog()),
+                "Send modifications" => assert!(send()),
+                "Show status" => assert!(status()),
+                "Show branches" => assert!(display_branches()),
+                "Show diff" => assert!(diff()),
+                "Show logs" => assert!(logs()),
+                "Run tests" => assert!(test_application()),
+                "Run program" => assert!(run_program()),
+                "Remove depedencies" => assert!(remove_depedencies()),
+                "Publish" => assert!(publish()),
+                "Install" => assert!(install_program()),
+                "Stash all modifications" => assert!(stash()),
+                "Delete a branch" => assert!(remove_branch(
+                    ask("Enter the name of the branch to remove : ").as_str()
+                )),
+                "Delete a tag" => assert!(delete_tag()),
+                "Update dependencies" => assert!(update()),
+                "Create a new branch with no staged modifications" => assert!(stash_branch()),
+                "Show tags" => assert!(tags()),
+                "Add modifications" => assert!(add()),
+                "Quit" => break,
+                _ => {
+                    continue;
+                }
             }
-        } else {
-            break;
         }
     }
     println!("Bye...");
     0
+}
+
+fn stash_branch() -> bool {
+    assert!(stash());
+    let feat = ask("Enter the feature name");
+    Command::new("git")
+        .arg("stash")
+        .arg("branch")
+        .arg(feat.as_str())
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn tags() -> bool {
+    Command::new("git")
+        .arg("tag")
+        .arg("--list")
+        .arg("--sort=-taggerdate")
+        .arg("--format=%(refname:short) | %(objectname) | %(taggerdate:short) | %(subject)")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn delete_tag() -> bool {
+    let tag = ask("Enter the name of the tag to delete : ");
+    Command::new("git")
+        .arg("tag")
+        .arg("-d")
+        .arg(tag.as_str())
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn display_branches() -> bool {
+    Command::new("git")
+        .arg("show-branch")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
+}
+
+fn logs() -> bool {
+    Command::new("git")
+        .arg("log")
+        .current_dir(".")
+        .spawn()
+        .expect("git")
+        .wait()
+        .unwrap()
+        .success()
 }
 
 #[derive(FromArgs)]
@@ -896,7 +1067,7 @@ fn main() {
     if zuu() {
         if Path::new(".git").exists() {
             if commiter.generate_change_log.is_some() {
-                create_changelog();
+                assert!(create_changelog());
             } else if commiter.rank.is_some() {
                 assert!(Command::new("git")
                     .arg("rank")
