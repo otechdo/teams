@@ -12,6 +12,10 @@
 
 - Initial commit or major feature start
 
+  - add new features
+
+  - create the main branch
+
   - generate change log
 
   - check commit typo
@@ -27,6 +31,8 @@
 - Undeveloped feature with potential
 
 - Bug fix or error resolution
+
+  - rename function and variables
 
   - remove command bad function
 
@@ -168,13 +174,13 @@
 
 ## Rank
 
-Total commits: 77
-Total ctimes: 591
+Total commits: 81
+Total ctimes: 605
 Total files: 12
-Total loc: 6019
+Total loc: 6179
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  6019 |     77 |     12 | 100.0/ 100/100.0 |
+| Willy Micieli |  6179 |     81 |     12 | 100.0/ 100/100.0 |
 
 ## License
 
