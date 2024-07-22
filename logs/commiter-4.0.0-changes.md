@@ -12,6 +12,8 @@
 
 - Initial commit or major feature start
 
+  - generate change log
+
   - check commit typo
 
 - Reduction of codebase size or removal of features
@@ -166,13 +168,13 @@
 
 ## Rank
 
-Total commits: 76
-Total ctimes: 590
-Total files: 11
-Total loc: 5165
+Total commits: 77
+Total ctimes: 591
+Total files: 12
+Total loc: 6019
 | Author        |   loc |   coms |   fils |  distribution    |
 |:--------------|------:|-------:|-------:|:-----------------|
-| Willy Micieli |  5165 |     76 |     11 | 100.0/ 100/100.0 |
+| Willy Micieli |  6019 |     77 |     12 | 100.0/ 100/100.0 |
 
 ## License
 
