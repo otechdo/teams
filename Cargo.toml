@@ -1,15 +1,24 @@
 [package]
-name = "commiter"
-version = "4.0.0"
+name = "teams"
+version = "4.0.1"
 edition = "2021"
 license-file = "LICENSE"
 authors = ["Willy Micieli"]
-repository = "https://github.com/otechdo/commiter"
+repository = "https://github.com/otechdo/teams"
+homepage = "https://github.com/otechdo/teams/wiki"
 categories = ["development-tools"]
-description = "A rust program to ensure the quality of commit"
-keywords = ["git", "zuu", "commit", "quality", "rust"]
+description = "a free software to ensure better project management for teams"
+keywords = [
+    "Planning and Organization",
+    "Team Management",
+    "Monitoring and Control",
+    "Team Communication",
+    "Ensure the quality",
+]
 readme = "README.md"
+
 [dependencies]
 argh = "0.1.12"
 cargo_metadata = "0.18.1"
+chrono = "0.4.38"
 inquire = "0.7.5"

@@ -2,6 +2,7 @@
 
 use argh::FromArgs;
 use cargo_metadata::MetadataCommand;
+use chrono::Utc;
 use inquire::{Confirm, MultiSelect, Select, Text};
 use std::env::consts::OS;
 use std::fs::{self, read_to_string, remove_file, File};
@@ -141,12 +142,24 @@ fn get_rank() -> String {
         .wait()
         .unwrap()
         .success());
-    read_to_string("rank")
+    let data = read_to_string("rank")
         .expect("failed to parse file")
         .trim()
-        .to_string()
+        .to_string();
+    remove_file("rank").expect("failed to remove file");
+    data
 }
 
+fn program_or_lib() -> String {
+    if read_to_string("Cargo.toml")
+        .expect("no cargo project")
+        .contains("lib")
+    {
+        String::from("library")
+    } else {
+        String::from("software")
+    }
+}
 fn create_changelog() -> bool {
     if Path::new("./logs").is_dir().eq(&false) {
         fs::create_dir_all("./logs").expect("msg");
@@ -159,15 +172,37 @@ fn create_changelog() -> bool {
     let logs = get_log();
     let lines = logs.lines();
     let mut f = File::create(filename.as_str()).expect("failed to create file");
-    writeln!(f, "# {}\n\n> {}\n", project(), description()).expect("msg");
-    writeln!(f, "- Authors\n").expect("msg");
-    for author in authors() {
-        writeln!(f, "  - {author}").expect("msg");
-    }
+    writeln!(
+        f,
+        "# 🚀 {} {} released\n\nToday the `{}`, we are very happy to present the **{}** version of our `{}` {} !\n\nThis release marks a significant step forward for our {} {}.\n\n## Demonstration\n\n{}\n\n## What it's?\n\nIt's {}\n\n## What we do ?\n\n- {}\n\n## Our team\n\n- {}\n\n## Links\n\n- [Source code]({})\n- [Home]({})\n- [Issues]({})\n- [Pull Request]({})\n- [Discussions]({})\n- [Wiki]({})\n- [Projects]({})\n- [Releases]({})\n- [Crates.io](https://crates.io/crates/{}/{})\n",
+        project(),
+        version(),
+        Utc::now().date_naive(),
+        version(),
+        project(),
+        program_or_lib(),
+        program_or_lib(),
+        project(),
+        project(),
+        description(),
+        keywords().join("\n- "),
+        authors().join("\n- "),
+        repository(),
+        homepage(),
+        issues(),
+        pulls_request(),
+        discussions(),
+        wiki(),
+        projects(),
+        releases(),
+        project(),
+        version()
+    )
+    .expect("msg");
     for t in commit_types_with_help() {
         let ttt: Vec<&str> = t.split(':').collect();
         let title: String = (*ttt.last().unwrap()).to_string();
-        writeln!(f, "\n-{title}").expect("msg");
+        writeln!(f, "###{title}\n").expect("msg");
         for line in lines.clone() {
             let current = (*ttt.first().unwrap()).to_string();
             if line.contains(current.as_str()) {
@@ -184,18 +219,56 @@ fn create_changelog() -> bool {
     }
     writeln!(
         f,
-        "\n## Rank\n\n{}\n\n## License\n\n```\n{}\n```",
-        get_rank(),
-        read_to_string("LICENSE")
-            .expect("LINCENSE file not founded")
+        "\n## README\n\n{}\n\n## LICENSE\n\n```\n{}\n```",
+        read_to_string(readme())
+            .expect("readme file not founded")
+            .trim(),
+        read_to_string(license())
+            .expect("LICENSE file not founded")
             .trim()
     )
     .expect("msg");
     remove_file("log").expect("failed to remove log");
-    remove_file("rank").expect("failed to remove log");
     Path::new(filename.as_str()).exists()
 }
+fn issues() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/issues");
+    }
+    x
+}
 
+fn wiki() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/wiki");
+    }
+    x
+}
+fn projects() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/projects");
+    }
+    x
+}
+
+fn pulls_request() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/pulls");
+    }
+    x
+}
+
+fn discussions() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/discussions");
+    }
+    x
+}
 fn create_patch() {
     if Path::new("./patches").exists().eq(&false) {
         assert!(fs::create_dir_all("./patches").is_ok());
@@ -344,11 +417,57 @@ fn dependencies() -> Vec<String> {
     dependency_names
 }
 
+fn releases() -> String {
+    let mut x = repository();
+    if x.contains("github") {
+        x.push_str("/releases");
+    }
+    x
+}
 fn project() -> String {
     let metadata = MetadataCommand::new().no_deps().exec().unwrap();
     let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
     package.name.to_string()
 }
+
+fn keywords() -> Vec<String> {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package.keywords.clone()
+}
+
+fn homepage() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package.clone().homepage.expect("no homepage")
+}
+
+fn readme() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package
+        .clone()
+        .readme
+        .expect("no readme define")
+        .to_string()
+}
+
+fn license() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package
+        .clone()
+        .license_file
+        .expect("no licences define")
+        .to_string()
+}
+
+fn repository() -> String {
+    let metadata = MetadataCommand::new().no_deps().exec().unwrap();
+    let package: &cargo_metadata::Package = metadata.packages.first().unwrap();
+    package.clone().repository.expect("no repository define")
+}
+
 ///
 /// # Panics
 ///
@@ -1069,14 +1188,7 @@ fn main() {
             if commiter.generate_change_log.is_some() {
                 assert!(create_changelog());
             } else if commiter.rank.is_some() {
-                assert!(Command::new("git")
-                    .arg("rank")
-                    .current_dir(".")
-                    .spawn()
-                    .expect("missing alias")
-                    .wait()
-                    .unwrap()
-                    .success());
+                println!("{}", get_rank());
             }
             exit(flow(true));
         } else {
