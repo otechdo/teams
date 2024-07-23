@@ -10,7 +10,7 @@ categories = ["development-tools"]
 description = "a free software to ensure better project management for teams"
 keywords = [
     "Organization",
-    "Todo list",
+    "Todo",
     "Monitoring",
     "Communication",
     "Quality",
