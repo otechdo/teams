@@ -64,7 +64,7 @@ pip install git-fame
 ### Commiter installation
 
 ```bash
-cargo install cargo-watch zuu commiter
+cargo install cargo-watch zuu teams
 ```
 
 ### Commit Message Format
