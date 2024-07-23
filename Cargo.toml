@@ -9,11 +9,11 @@ homepage = "https://github.com/otechdo/teams/wiki"
 categories = ["development-tools"]
 description = "a free software to ensure better project management for teams"
 keywords = [
-    "Planning and Organization",
-    "Team Management",
-    "Monitoring and Control",
-    "Team Communication",
-    "Ensure the quality",
+    "Organization",
+    "Todo list",
+    "Monitoring",
+    "Communication",
+    "Quality",
 ]
 readme = "README.md"
 
