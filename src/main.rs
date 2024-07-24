@@ -235,6 +235,8 @@ fn issues() -> String {
     let mut x = repository();
     if x.contains("github") {
         x.push_str("/issues");
+    } else if x.contains("gitlab") {
+        x.push_str("-/issues");
     }
     x
 }
@@ -243,6 +245,8 @@ fn wiki() -> String {
     let mut x = repository();
     if x.contains("github") {
         x.push_str("/wiki");
+    } else if x.contains("gitlab") {
+        x.push_str("-/wikis");
     }
     x
 }
@@ -258,6 +262,8 @@ fn pulls_request() -> String {
     let mut x = repository();
     if x.contains("github") {
         x.push_str("/pulls");
+    } else if x.contains("gitlab") {
+        x.push_str("-/merge_requests");
     }
     x
 }
@@ -421,6 +427,8 @@ fn releases() -> String {
     let mut x = repository();
     if x.contains("github") {
         x.push_str("/releases");
+    } else if x.contains("gitlab") {
+        x.push_str("-/tags");
     }
     x
 }
