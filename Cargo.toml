@@ -8,13 +8,7 @@ repository = "https://github.com/otechdo/teams"
 homepage = "https://github.com/otechdo/teams/wiki"
 categories = ["development-tools"]
 description = "a free software to ensure better project management for teams"
-keywords = [
-    "Organization",
-    "Todo",
-    "Monitoring",
-    "Communication",
-    "Quality",
-]
+keywords = ["Organization", "Todo", "Monitoring", "Communication", "Quality"]
 readme = "README.md"
 
 [dependencies]
