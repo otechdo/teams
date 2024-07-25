@@ -109,15 +109,15 @@ pub enum DueDate {
 }
 
 impl DueDate {
-    pub const TODAY: &str = "today";
-    pub const TOMORROW: &str = "tomorrow";
-    pub const IN_ONE_WEEK: &str = "in_one_week";
-    pub const IN_ONE_MONTH: &str = "in_one_month";
-    pub const Q1: &str = "Q1";
-    pub const Q2: &str = "Q2";
-    pub const Q3: &str = "Q3";
-    pub const Q4: &str = "Q4";
-    pub const CUSTOM: &str = "custom";
+    pub const TODAY: &'static str = "today";
+    pub const TOMORROW: &'static str = "tomorrow";
+    pub const IN_ONE_WEEK: &'static str = "in_one_week";
+    pub const IN_ONE_MONTH: &'static str = "in_one_month";
+    pub const Q1: &'static str = "Q1";
+    pub const Q2: &'static str = "Q2";
+    pub const Q3: &'static str = "Q3";
+    pub const Q4: &'static str = "Q4";
+    pub const CUSTOM: &'static str = "custom";
 
     #[must_use]
     pub fn current_quarter() -> Self {
