@@ -1,1 +1,0 @@
-%type% (%scope%): %summary%\n\n%description%\n\nThe following changes were made:\n\n%why%\n\nAuthored by: %author% <%mail%>
